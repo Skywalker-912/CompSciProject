@@ -1,1 +1,2 @@
-# CompSciProject
+# Steps to install this project
+
