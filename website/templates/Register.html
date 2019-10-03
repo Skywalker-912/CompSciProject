@@ -1,0 +1,169 @@
+{%load staticfiles%}
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Import Google Icon Font-->
+  <link href="{% static "BookTicket/fonts/material-icons-1" %}" rel="stylesheet">
+  <link href="{% static "BookTicket/fonts/material-icons-1" %}" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="{% static "BookTicket/css/materialize.css" %} ">
+
+
+  <title>Register</title>
+  <link href="{% static "BookTicket/fonts/font-awesome-icon.html" %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css"
+    href="{% static "BookTicket/css/materialize-2.css" %}">
+  <style>
+    body {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .gender-male,.gender-female {
+  display: inline-block;
+}
+.gender-female {
+  margin-left: 35px;}
+    main {
+      flex: 1 0 auto;
+    
+
+    body {
+      background: #fff;
+    }
+
+
+
+    .input-field input[type=date]:focus+label,
+    .input-field input[type=text]:focus+label,
+    .input-field input[type=email]:focus+label,
+    .input-field input[type=password]:focus+label {
+      color: #e91e63;
+    }
+
+    .input-field input[type=date]:focus,
+    .input-field input[type=text]:focus,
+    .input-field input[type=email]:focus,
+    .input-field input[type=password]:focus {
+      border-bottom: 2px solid #e91e63;
+      box-shadow: none;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav-wrapper teal">
+    <div class="container">
+      <a href="..\home" class="brand-logo">OnTrack</a>
+      
+      <a href="#" class="sidenav-trigger" data-target="mobile-links">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="..\home">Home</a></li>
+        <li><a href="..\home#follow">About</a></li>
+        <li><a href="..\home#contact">Contact</a></li>
+        <li><a href="..\login">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="mobile-links">
+    <li><a href="..\home">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="..\login">Login</a></li>
+  </ul>
+  <div class="section"></div>
+  <main>
+    <center>
+      <h1 class="red-text"><img height="141.5px" width="300px" src="{% static "BookTicket/images/traingif.gif" %}"></h1></img>
+      <div class="section"></div>
+
+      <h5 class="indigo-text">Enter account details</h5>
+      <div class="section"></div>
+
+      <div class="container">
+        <div class="z-depth-3 grey lighten-4 row" style="width: 900px; display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+
+          <form action="#" class="col s12" method="post">
+            {%csrf_token%}
+            <div class='row'>
+              <div class='col s12'>
+              </div>
+            </div>
+
+            <div class='row'>
+                <div class='input-field col s12'>
+                  <input class='validate' type='text' name='name' id='name' />
+                  <label for='name'>Enter your name</label>
+                </div>
+              </div>
+
+            <div class='row'>
+              <div class='input-field col s12'>
+                <input class='validate' type='email' name='email' id='email' />
+                <label for='email'>Enter your email</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12'>
+                <input class='validate' type='password' name='password' id='password' />
+                <label for='password'>Enter your password</label>
+              </div>
+            </div>
+            <div class='row'>
+                <div class='input-field col s12'>
+                  <input class='validate' type='password' name='repassword' id='password2' />
+                  <label for='password2'>Re-Enter your password</label>
+                </div>
+              </div>
+
+            <div class='row'>
+                <div class='input-field col s12'>
+                  <input class='validate' type='number' name='age' id='age' />
+                  <label for='age'>Enter Age</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="inline-radio left">
+                <!-- <div class="input-field col s6"> -->
+                  <div class="gender-male">
+                    <input class="with-gap" name="gender" type="radio" id="male" value="M" required />
+                    <label for="male">Male</label>
+                  </div>
+                  <div class="gender-female">
+                    <input class="with-gap" name="gender" type="radio" id="female" value="F" required />
+                    <label for="female">Female</label>
+                  </div>
+                </div>
+              </div>
+
+            <br />
+            <center>
+              <div class='row'>
+                <button type='submit' name='btn_login' value="Login" class='col s12 btn btn-large waves-effect indigo'>Login</button>
+              </div>
+            </center>
+          </form>
+        </div>
+      </div>
+    </center>
+
+    <div class="section"></div>
+    <div class="section"></div>
+  </main>
+  <script src="{% static "BookTicket/js/jquery-3.4.0.min.js" %}"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="{% static "BookTicket/js/materialize.min.js" %}"></script>
+  <script>
+    $(document).ready(function () {
+      $('.sidenav').sidenav()
+    })
+  </script>
+</body>
+
+</html>

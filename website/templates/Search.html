@@ -1,0 +1,155 @@
+{%load staticfiles%}
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--Import Google Icon Font-->
+    <link href="{% static "BookTicket/fonts/material-icons-1" %}" rel="stylesheet">
+    <link href="{% static "BookTicket/fonts/material-icons-1" %}" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static "BookTicket/css/materialize.css" %} ">
+
+
+  <title>Search</title>
+  <link href="{% static "BookTicket/fonts/font-awesome-icon.html" %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css"
+    href="{% static "BookTicket/css/materialize-2.css" %}">
+  <style>
+    body {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1 0 auto;
+    }
+
+    body {
+      background: #fff;
+    }
+
+    .input-field input[type=date]:focus+label,
+    .input-field input[type=text]:focus+label,
+    .input-field input[type=email]:focus+label,
+    .input-field input[type=password]:focus+label {
+      color: #e91e63;
+    }
+
+    .input-field input[type=date]:focus,
+    .input-field input[type=text]:focus,
+    .input-field input[type=email]:focus,
+    .input-field input[type=password]:focus {
+      border-bottom: 2px solid #e91e63;
+      box-shadow: none;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav-wrapper teal">
+    <div class="container">
+
+      <a href="..\home" class="brand-logo">OnTrack</a>
+
+      <a href="#" class="sidenav-trigger" data-target="mobile-links">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="..\home">Home</a></li>
+        <li><a href="..\home#follow">About</a></li>
+        <li><a href="..\home#contact">Contact</a></li>
+        <li><a href="..\login">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="mobile-links">
+    <li><a href="..\home">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="..\login">Login</a></li>
+  </ul>
+
+  <div class="section"></div>
+  <main>
+    <center>
+      <h1 class="red-text"><img height="141.5px" width="300px" src="{% static "BookTicket/images/traingif.gif" %}"></h1></img>
+      <div class="section"></div>
+
+      <h5 class="indigo-text">Book Your Ticket</h5>
+      <div class="section"></div>
+
+      <div class="container">
+        <div class="z-depth-1 grey lighten-4 row"
+          style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+
+          <form class="col s12" method="post">
+            <div class='row'>
+              <div class='col s12'>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="input-field col s12">
+                <input type="text" id="autocomplete-input-1" class="autocomplete">
+                <label for="autocomplete-input-1">Enter From Station</label>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="input-field col s12">
+                <input type="text" id="autocomplete-input-2" class="autocomplete">
+                <label for="autocomplete-input-2">Enter To Station</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12'>
+                <input class='datepicker' type='text' name='date' id='date' />
+                <label for='date'>Enter Date</label>
+              </div>
+            </div>
+
+            <br />
+            <center>
+              <div class='row'>
+                <button type='submit' name='btn_Search' class='col s12 btn btn-large waves-effect indigo'>Search for
+                  Trains</button>
+              </div>
+            </center>
+          </form>
+        </div>
+      </div>
+    </center>
+
+    <div class="section"></div>
+    <div class="section"></div>
+  </main>
+  <script src="{% static "BookTicket/js/jquery-3.4.0.min.js" %}"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="{% static "BookTicket/js/materialize.min.js" %}"></script>
+  <script>
+    $(document).ready(function () {
+      $('.sidenav').sidenav()
+      $('.datepicker').datepicker()
+      $('input.autocomplete').autocomplete({
+        data: {
+          "SBC": null,
+          "BNC": null,
+          "KPD": null,
+          "MAS": null,
+          "DLI": null,
+          "ALD": null,
+          "DHN": null,
+          "BPL": null,
+          "GWL": null
+        },
+      });
+    })
+  </script>
+</body>
+
+</html>
