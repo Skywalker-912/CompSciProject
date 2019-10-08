@@ -1,16 +1,15 @@
 # Welcome to OnTrack
 
-If you are installing this for the first time do the following  
+If you are installing this for the first time: 
 virtualenv OnTrackSolution  
 cd OnTrackSolution\Scripts  
 activate 
 
-Now go to the folder and run the following
+Now go to the folder and run the following:
 
 pip install django  
 REM pip install mysqlclient (1.4.4)  
-cd..  
-django-admin startproject OnTrackProject  
+cd..   
 
 git init  
 git remote add origin https://github.com/Skywalker-912/CompSciProject.git  
