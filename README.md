@@ -19,5 +19,5 @@ git reset origin/master
 
 To push changes  
 git add website  
-git commit -m "<comments>"  
+git commit -m "comments"  
 git push
