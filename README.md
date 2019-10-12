@@ -17,3 +17,7 @@ git fetch origin
 git checkout -b master --track origin/master   
 git reset origin/master   
 
+To push changes  
+git add website  
+git commit -m "comments"  
+git push
