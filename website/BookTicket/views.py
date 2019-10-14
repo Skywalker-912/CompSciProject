@@ -2,7 +2,8 @@ from django.shortcuts import render
 import csv
 from BookTicket.models import Account
 import os
-
+import mysql.connector
+con=mysql.connector.connect(host="localhost", user="root", passwd="root",database="project")
 # Create your views here.
 a_list=[]
 email=''
@@ -76,3 +77,8 @@ def seereg(request):
         return render(request,'Home_Page.html',{'al':k}) 
     else:
         return render(request,'Register.html')
+def seeschedule(request):
+    curs=con.cursor()
+    curs.execute('Select * from bookticket_train')
+    train=curs.fetchall()
+    return render(request,'Schedule.html',{'train':train})
