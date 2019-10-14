@@ -1,0 +1,116 @@
+{%load staticfiles%}
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Import Google Icon Font-->
+  <link href="{% static "BookTicket/fonts/material-icons-1" %}" rel="stylesheet">
+  <link href="{% static "BookTicket/fonts/material-icons-1" %}" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="{% static "BookTicket/css/materialize.css" %} ">
+
+
+  <title>Schedule</title>
+  <link href="{% static "BookTicket/fonts/font-awesome-icon.html" %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css"
+    href="{% static "BookTicket/css/materialize-2.css" %}">
+  <style>
+    body {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1 0 auto;
+    }
+
+    body {
+      background: #fff;
+    }
+
+    .input-field input[type=date]:focus+label,
+    .input-field input[type=text]:focus+label,
+    .input-field input[type=email]:focus+label,
+    .input-field input[type=password]:focus+label {
+      color: #e91e63;
+    }
+
+    .input-field input[type=date]:focus,
+    .input-field input[type=text]:focus,
+    .input-field input[type=email]:focus,
+    .input-field input[type=password]:focus {
+      border-bottom: 2px solid #e91e63;
+      box-shadow: none;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav-wrapper teal">
+    <div class="container">
+      <a href="..\home" class="brand-logo">OnTrack</a>
+      
+      <a href="#" class="sidenav-trigger" data-target="mobile-links">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="..\home">Home</a></li>
+        <li><a href="..\home#follow">About</a></li>
+        <li><a href="..\home#contact">Contact</a></li>
+        <li><a href="..\login">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="mobile-links">
+    <li><a href="..\home">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="..\login">Login</a></li>
+  </ul>
+
+
+  <table>
+    <thead>
+      <tr>
+          <th>Train No</th>
+          <th>Train Name</th>
+          <th>Source</th>
+          <th>Destination</th>
+          <th>Departure Time</th>
+          <th>Arrival Time</th>
+          <th>Capacity</th>
+      </tr>
+    </thead>
+    {%for i in train%}
+    <tbody>
+      <tr>
+        <td>{{i.Train_No}}</td>
+        <td>{{i.Train_Name}}</td>
+        <td>{{i.Source}}</td>
+        <td>{{i.Destination}}</td>
+        <td>{{i.Departue_Time}}</td>
+        <td>{{i.Arrival_Time}}</td>
+        <td>{{i.Capacity}}</td>
+      </tr>
+    </tbody>
+    {%endfor%}
+  </table>
+
+    <div class="section"></div>
+    <div class="section"></div>
+  </main>
+  <script src="{% static "BookTicket/js/jquery-3.4.0.min.js" %}"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="{% static "BookTicket/js/materialize.min.js" %}"></script>
+  <script>
+    $(document).ready(function () {
+      $('.sidenav').sidenav()
+      $('input#pnr').characterCounter();
+    })
+  </script>
+</body>
+
+</html>
