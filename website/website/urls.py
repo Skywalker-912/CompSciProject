@@ -23,5 +23,6 @@ urlpatterns = [
     path('login/',views.seelogin),
     path('pnr/',views.seepnr),
     path('search/',views.seesearch),
-    path('register/',views.seereg)
+    path('register/',views.seereg),
+    path('schedule/',views.seeschedule),
 ]
