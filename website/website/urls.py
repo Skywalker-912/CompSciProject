@@ -20,6 +20,7 @@ from BookTicket import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.seehome),
+    path('homepg/', views.seehomepg),
     path('login/',views.seelogin),
     path('pnr/',views.seepnr),
     path('search/',views.seesearch),
