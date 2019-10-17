@@ -57,7 +57,27 @@ def seesearch(request):
                     if [sid[i],sid[j]][::-1] not in stop:
                         stop+=[[sid[i],sid[j]]]
         print(stop)
-        return render(request,'Schedule.html')
+        for t in stop:
+            train_no=t[0][0]
+            source=t[0][1]
+            dest=t[1][1]
+            curs.execute("select station_id,arrival_time from bookticket_stops where station_id in ('{}','{}')".format(source,dest))
+            at=curs.fetchall()
+            for i in at:
+                if i[0]==source:
+                    artime=i[1]
+                if i[0]==dest:
+                    deptime=i[1]
+            curs.execute("select train_no,train_name from bookticket_train")
+            tr=curs.fetchall()
+            for i in tr:
+                if i[0]==train_no:
+                    train_name=i[1]
+            train=[(train_no,train_name,source,dest,artime,deptime)]
+        if train:
+            return render(request,'Schedule.html',{'train':train})
+        else:
+            return render(request,'Schedule.html')  
     else:
         return render(request,'Search.html',{'al':x})
 def seereg(request):
@@ -89,7 +109,7 @@ def seereg(request):
     else:
         return render(request,'Register.html')
 def seeschedule(request):
-    
+    global x
     curs.execute('Select * from bookticket_train')
     train=curs.fetchall()
-    return render(request,'Schedule.html',{'train':train})
+    return render(request,'Schedule.html',{'train':train,'al':x})
