@@ -116,8 +116,28 @@
                 <a href="#contact">Contact</a>
               </li>
               <li>
+                {%if al%}
+                    <label class="dropdown-trigger" for="user" hover="true" data-target="dropdown2" href="#"><i class="material-icons white-text">person_pin</i></label>
+                    <!-- Dropdown Structure -->
+                    <ul id='dropdown2' class='dropdown-content collection'>
+                        {%for i in al%}
+                          
+                            <li><a><h6>{{i.aname}}</h6></a></li>
+                            <!-- <li><a><h6>{{i.aemail}}</h6></a></li> -->
+                            <li><a href="..\home"><h6>Logout</h6></a></li>
+                            
+                            {%endfor%}
+              
+                          
+                        </ul>
+                {%else%}
+                <a href="../login">Login</a>
+                {%endif%}
+
+                </li>
+              <!-- <li>
                 <a href="..\login">Login</a>
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>
@@ -125,27 +145,49 @@
     </div>
     <a class="material-icons btn-floating waves-light white" id="back2Top" title="Back to top" href="#">arrow_forward</a>
     <ul class="sidenav" id="mobile-links">
-      <li>
+        <div class="container">
+            <li>
+                {%if al%}
+                      <label class="dropdown-trigger" for="user" hover="true" data-target="dropdown4" href="#"><i class="center-align material-icons teal-text medium">person_pin</i></label>
+                      <!-- Dropdown Structure -->
+                      <ul id='dropdown4' class='dropdown-content collection'>
+                          {%for i in al%}
+                            
+                          <li><a><h6>{{i.aname}}</h6></a></li>
+                          <!-- <li><a><h6>{{i.aemail}}</h6></a></li> -->
+                          <li><a href="..\home"><h6>Logout</h6></a></li>
+                          
+                          {%endfor%}
+                          </ul>
+                {%endif%}
+                </li>
+              </div>
+        <li>
         <!-- Dropdown menu -->
-        <a class="dropdown-trigger" hover="true" data-target="dropdown2" href="#">Trains<i class="material-icons small black-text right">arrow_drop_down</i></a>
+        <a class="dropdown-trigger teal-text" hover="true" data-target="dropdown3" href="#">Trains<i class="material-icons small teal-text right">arrow_drop_down</i></a>
         <!-- Dropdown Structure -->
-        <ul id='dropdown2' class='dropdown-content collection'>
-            <li><a href="..\pnr"><h6>PNR status</h6></a></li>
-            <li><a href="..\search"><h6>Search</h6></a></li>
+        <ul id='dropdown3' class='dropdown-content collection'>
+            <li><a href="..\pnr" class="teal-text"><h6>PNR status</h6></a></li>
+            <li><a href="..\search" class="teal-text"><h6>Search</h6></a></li>
         </ul>
       </li>
       <li>
-        <a href="#popular">Popular Places</a>
+        <a href="#popular" class="teal-text">Popular Places</a>
       </li>
       <li>
-        <a href="#gallery">Gallery</a>
+        <a href="#gallery" class="teal-text">Gallery</a>
       </li>
       <li>
-        <a href="#contact">Contact</a>
+        <a href="#contact" class="teal-text">Contact</a>
       </li>
       <li>
+      {%if not al%}
+      <a href="../login" class="teal-text">Login</a>
+      {%endif%}
+    </li>
+      <!-- <li>
         <a href="..\login">Login</a>
-      </li>
+      </li> -->
     </ul>
 
     <!-- Section: Search -->
@@ -192,7 +234,7 @@
             <div class="card-panel">
               <i class="material-icons large teal-text">train</i>
               <h4>Train schedule</h4>
-              <p><a href="#">Click here to view train schedule</a></p>
+              <p><a href="..\schedule">Click here to view train schedule</a></p>
             </div>
           </div>
         </div>
@@ -251,21 +293,22 @@
                 <div class="container">
             <ul style="justify-content: center;display:flex">
 
-            <li><a href="https://www.facebook.com" class="tooltipped btn-floating waves-effect waves-light teal" data-position="bottom" data-tooltip="Facebook">
-              <i class="fab fa-facebook"></i>
-            </a></li>
-            <li><a href="https://www.twitter.com" class="tooltipped btn-floating waves-effect waves-light teal" data-positon="bottom" data-tooltip="Twitter">
-              <i class="fab fa-twitter"></i>
-            </a></li>
-            <li><a href="https://www.linkedin.com" class="tooltipped btn-floating waves-effect waves-light teal" data-positon="bottom" data-tooltip="LinkedIn">
-              <i class="fab fa-linkedin"></i>
-            </a></li>
-            <li><a href="https://www.instagram.com" class="tooltipped btn-floating waves-effect waves-light teal" data-positon="bottom" data-tooltip="Instagram">
-              <i class="fab fa-instagram"></i>
-            </a></li>
-            <li><a href="https://www.pinterest.com" class="tooltipped btn-floating waves-effect waves-light teal" data-positon="bottom" data-tooltip="Pinterest">
-              <i class="fab fa-pinterest"></i>
-            </a></li>
+              <li><a href="https://www.facebook.com" class="tooltipped btn-floating waves-effect waves-light teal" data-position="bottom" data-tooltip="Facebook">
+                <i class="fab fa-facebook"></i>
+              </a></li>
+              <li><a href="https://www.twitter.com" class="tooltipped btn-floating waves-effect waves-light teal" data-positon="bottom" data-tooltip="Twitter">
+                <i class="fab fa-twitter"></i>
+              </a></li>
+              <li><a href="https://www.linkedin.com" class="tooltipped btn-floating waves-effect waves-light teal" data-positon="bottom" data-tooltip="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+              </a></li>
+              <li><a href="https://www.instagram.com" class="tooltipped btn-floating waves-effect waves-light teal" data-positon="bottom" data-tooltip="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a></li>
+              <li><a href="https://www.pinterest.com" class="tooltipped btn-floating waves-effect waves-light teal" data-positon="bottom" data-tooltip="Pinterest">
+                <i class="fab fa-pinterest"></i>
+              </a></li>
+            
             </ul>
           </div>
           </nav>
@@ -325,7 +368,7 @@
         </div>
       </div>
     </section>
-
+    
     <!-- Section: Contact -->
     <section id="contact" class="section section-contact scrollspy">
       <div class="container">
@@ -347,35 +390,35 @@
           </div>
 
           <div class="col s12 m6">
-            <form class="col s12">
+            <form class="col s12" method="GET">
               <div class="card-panel grey lighten-3">
                 <h5>Please fill out this form</h5>
                 <div class="input-field">
-                  <i class="material-icons prefix teal-text">face</i>
-                <input type="text" class="validate" id="name">
-                <label for="name">Name</label>
-              </div>
-              <div class="input-field">
-                  <i class="material-icons prefix teal-text">email</i>
-                <input type="email" class="validate" id="email">
-                <label for="email">Email</label>
-              </div>
-              <div class="input-field">
-                  <i class="material-icons prefix teal-text">phone</i>
-                <input type="text" class="validate" id="phone">
-                <label for="phone">Phone</label>
-              </div>
-              <div class="input-field">
-                <div class="input-field">
-                  <i class="material-icons prefix teal-text">mode_edit</i>
-                  <input type="text" class="validate" id="message" data-length="150">
-                  <label for="message">Message</label>
+                    <i class="material-icons prefix teal-text">face</i>
+                  <input type="text" class="validate" id="name">
+                  <label for="name">Name</label>
                 </div>
-                <!-- <textarea class="materialize-textarea" id="textarea1" data-length="150"></textarea> -->
-                <!-- <label for="textarea1">Message</label> -->
+                <div class="input-field">
+                    <i class="material-icons prefix teal-text">email</i>
+                  <input type="email" class="validate" id="email">
+                  <label for="email">Email</label>
+                </div>
+                <div class="input-field">
+                    <i class="material-icons prefix teal-text">phone</i>
+                  <input type="text" class="validate" id="phone">
+                  <label for="phone">Phone</label>
+                </div>
+                <div class="input-field">
+                  <div class="input-field">
+                    <i class="material-icons prefix teal-text">mode_edit</i>
+                    <input type="text" class="validate" id="message" data-length="150">
+                    <label for="message">Message</label>
+                  </div>
+                  <!-- <textarea class="materialize-textarea" id="textarea1" data-length="150"></textarea> -->
+                  <!-- <label for="textarea1">Message</label> -->
+                </div>
+                <button type="submit" anme="action" class="btn waves-effect waves-light">Submit</button>
               </div>
-              <button type="submit" anme="action" class="btn waves-effect waves-light">Submit</button>
-            </div>
             </form>
           </div>
           </div>
@@ -399,9 +442,9 @@
           coverTrigger:false
           // belowOrigin:true
         });
-        $('#textarea1').val('');
-        M.textareaAutoResize($('#textarea1'));
-        $('textarea#textarea1').characterCounter();
+        // $('#textarea1').val('');
+        // M.textareaAutoResize($('#textarea1'));
+        $('input#message').characterCounter();
         // $.widget.bridge('uitooltip', $.ui.tooltip);
         // Slider
         // const slider = document.querySelector('.slider');
