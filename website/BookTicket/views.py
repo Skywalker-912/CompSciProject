@@ -5,15 +5,12 @@ import os
 import mysql.connector
 con=mysql.connector.connect(host="localhost", user="root", passwd="root",database="project")
 # Create your views here.
-a_list=[]
-email=''
-pwd=''
+x=[]
 def seehome(request):
-    return render(request,'Home_Page.html',{'al':[]})
+    global x
+    return render(request,'Home_Page.html',{'al':x})
 def seelogin(request):
-    global a_list
-    global email
-    global pwd
+    global x
     if request.method=="POST":
         email=request.POST['email']
         pwd=request.POST['password']
@@ -22,33 +19,18 @@ def seelogin(request):
         for i in range(len(a_list)):
             print(a_list)
             if email==a_list[i].aemail and pwd==a_list[i].apwd:
-                #request.session['a_list']=a_list[i:i+1]
-                return render(request,'Home_Page.html',{'al':a_list[i:i+1]})
+                x=a_list[i:i+1]
+                return render(request,'Home_Page.html',{'al':x})
             else:
                 return render(request,'Login.html')
     else:
         return render(request,'Login.html',{'al':[]})
 def seepnr(request):
-    #x=request.session['a_list']
-    global a_list
-    global email
-    global pwd
-    a=Account.objects.all()
-    for i in range(len(a_list)):
-            print(a_list)
-            if email==a_list[i].aemail and pwd==a_list[i].apwd:
-                #request.session['a_list']=a_list[i:i+1]
-                return render(request,'PNR status.html',{'al':a_list[i:i+1]})
+    global x
+    return render(request,'PNR status.html',{'al':x})
 def seesearch(request):
-    global a_list
-    global email
-    global pwd
-    a=Account.objects.all()
-    for i in range(len(a_list)):
-            print(a_list)
-            if email==a_list[i].aemail and pwd==a_list[i].apwd:
-                #request.session['a_list']=a_list[i:i+1]
-                return render(request,'PNR status.html',{'al':a_list[i:i+1]})
+    global x
+    return render(request,'Search.html',{'al':x})
 def seereg(request):
     if request.method=="POST":
         name=request.POST['name']
