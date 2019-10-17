@@ -3,9 +3,16 @@ import csv
 from BookTicket.models import Account
 import os
 import mysql.connector
+import datetime
+
 con=mysql.connector.connect(host="localhost", user="root", passwd="root",database="project")
+curs=con.cursor()
+
 # Create your views here.
+
 x=[]
+datedict={'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':9,'Oct':10,'Nov':11,'Dec':12}
+daydict={1:'MON',2:'TUE',3:'WED',4:'THU',5:'FRI',6:'SAT',7:'SUN'}
 def seehome(request):
     global x
     return render(request,'Home_Page.html',{'al':x})
@@ -30,7 +37,29 @@ def seepnr(request):
     return render(request,'PNR status.html',{'al':x})
 def seesearch(request):
     global x
-    return render(request,'Search.html',{'al':x})
+    global datedict
+    if request.method=="POST":
+        fromstat=request.POST['fromstat']
+        tostat=request.POST['tostat']
+        date=request.POST['date']
+        month=datedict[date[0:3]]
+        year=date[8:]
+        dat=date[4:6]
+        day=datetime.datetime(int(year),int(month),int(dat))
+        day=day.isoweekday()
+        curs.execute("select train_no,station_id from bookticket_stops where station_id in ('{}','{}')".format(fromstat,tostat))
+        sid=curs.fetchall()
+        print(sid)
+        stop=[]
+        for i in range(len(sid)):
+            for j in range(len(sid)):
+                if j!=i and sid[i][0]==sid[j][0]:
+                    if [sid[i],sid[j]][::-1] not in stop:
+                        stop+=[[sid[i],sid[j]]]
+        print(stop)
+        return render(request,'Schedule.html')
+    else:
+        return render(request,'Search.html',{'al':x})
 def seereg(request):
     if request.method=="POST":
         name=request.POST['name']
@@ -60,7 +89,7 @@ def seereg(request):
     else:
         return render(request,'Register.html')
 def seeschedule(request):
-    curs=con.cursor()
+    
     curs.execute('Select * from bookticket_train')
     train=curs.fetchall()
     return render(request,'Schedule.html',{'train':train})
