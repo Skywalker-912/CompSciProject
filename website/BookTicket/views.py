@@ -60,6 +60,7 @@ def seesearch(request):
                     if [sid[i],sid[j]][::-1] not in stop:
                         stop+=[[sid[i],sid[j]]]
         print(stop)
+        train=[]
         for t in stop:
             train_no=t[0][0]
             source=t[0][1]
@@ -76,11 +77,13 @@ def seesearch(request):
             for i in tr:
                 if i[0]==train_no:
                     train_name=i[1]
-            train=[(train_no,train_name,source,dest,artime,deptime)]
-        if train:
-            return render(request,'Schedule.html',{'train':train})
-        else:
-            return render(request,'Schedule.html')  
+            curs.execute("select day from bookticket_stops where train_no={} and station_id='{}'".format(train_no,source))
+            daycheck=curs.fetchall()
+            print(daycheck)
+            for i in daycheck:
+                if i[0]==daydict[day]:
+                    train+=[(train_no,train_name,source,dest,artime,deptime)]
+        return render(request,'Schedule.html',{'train':train,'btest':True})
     else:
         return render(request,'Search.html',{'al':x})
 def seereg(request):
