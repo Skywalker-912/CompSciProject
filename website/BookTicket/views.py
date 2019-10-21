@@ -117,5 +117,12 @@ def seereg(request):
 def seeschedule(request):
     global x
     curs.execute('Select * from bookticket_train')
-    train=curs.fetchall()
-    return render(request,'Schedule.html',{'train':train,'al':x})
+    trainall=curs.fetchall()
+    return render(request,'Schedule.html',{'train':trainall,'al':x})
+def seeform(request):
+    if request.method=="POST":
+        k=request.POST['book']
+        print(request.POST)
+        return render(request,'Home_Page.html')
+    # else:
+        # return render(request,'Search.html')

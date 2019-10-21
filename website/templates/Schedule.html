@@ -115,6 +115,7 @@
           <th>Destination</th>
           <th>Departure Time</th>
           <th>Arrival Time</th>
+          <th></th>
     
       </tr>
     </thead>
@@ -128,7 +129,10 @@
         <td>{{i.4}}</td>
         <td>{{i.5}}</td>
         {%if btest%}
-        <td><button type='submit' class='btn indigo'>Book</button></td>
+        <form action="#" method="POST">
+          {%csrf_token%}
+        <td><input class="text btn indigo" type="submit" value='{{i.0}}' name="book"></td>
+      </form>
         {%endif%}
       </tr>
     </tbody>
