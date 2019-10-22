@@ -131,7 +131,7 @@
         {%if btest%}
         <form action="#" method="POST">
           {%csrf_token%}
-        <td><input class="text btn indigo" type="submit" value='{{i.0}}' name="book"></td>
+        <td><input class="text btn indigo" type="submit" value="Book" name="{{i.0}}" action="#"></input></td>
       </form>
         {%endif%}
       </tr>

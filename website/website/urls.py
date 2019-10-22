@@ -26,4 +26,5 @@ urlpatterns = [
     path('search/',views.seesearch),
     path('register/',views.seereg),
     path('schedule/',views.seeschedule),
+    path('form/',views.seeform)
 ]

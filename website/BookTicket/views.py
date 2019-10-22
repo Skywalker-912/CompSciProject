@@ -4,6 +4,7 @@ from BookTicket.models import Account
 import os
 import mysql.connector
 import datetime
+from django.http import HttpResponseRedirect
 
 con=mysql.connector.connect(host="localhost", user="root", passwd="root",database="project")
 curs=con.cursor()
@@ -11,6 +12,7 @@ curs=con.cursor()
 # Create your views here.
 
 x=[]
+train=[]
 datedict={'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':9,'Oct':10,'Nov':11,'Dec':12}
 daydict={1:'MON',2:'TUE',3:'WED',4:'THU',5:'FRI',6:'SAT',7:'SUN'}
 
@@ -39,6 +41,7 @@ def seepnr(request):
     global x
     return render(request,'PNR status.html',{'al':x})
 def seesearch(request):
+    global train
     global x
     global datedict
     if request.method=="POST":
@@ -52,14 +55,12 @@ def seesearch(request):
         day=day.isoweekday()
         curs.execute("select train_no,station_id from bookticket_stops where station_id in ('{}','{}')".format(fromstat,tostat))
         sid=curs.fetchall()
-        print(sid)
         stop=[]
         for i in range(len(sid)):
             for j in range(len(sid)):
                 if j!=i and sid[i][0]==sid[j][0]:
                     if [sid[i],sid[j]][::-1] not in stop:
                         stop+=[[sid[i],sid[j]]]
-        print(stop)
         train=[]
         for t in stop:
             train_no=t[0][0]
@@ -79,11 +80,11 @@ def seesearch(request):
                     train_name=i[1]
             curs.execute("select day from bookticket_stops where train_no={} and station_id='{}'".format(train_no,source))
             daycheck=curs.fetchall()
-            print(daycheck)
             for i in daycheck:
                 if i[0]==daydict[day]:
                     train+=[(train_no,train_name,source,dest,artime,deptime)]
-        return render(request,'Schedule.html',{'train':train,'btest':True})
+            
+        return HttpResponseRedirect('../schedule',{'train':train,'btest':True})
     else:
         return render(request,'Search.html',{'al':x})
 def seereg(request):
@@ -116,13 +117,15 @@ def seereg(request):
         return render(request,'Register.html')
 def seeschedule(request):
     global x
-    curs.execute('Select * from bookticket_train')
-    trainall=curs.fetchall()
-    return render(request,'Schedule.html',{'train':trainall,'al':x})
+    global train
+    if not train:
+        curs.execute('Select * from bookticket_train')
+        trainall=curs.fetchall()
+        return render(request,'Schedule.html',{'train':trainall,'al':x})
+    else:
+        return render(request,'Schedule.html',{'train':train,'al':x,'btest':True})
 def seeform(request):
     if request.method=="POST":
-        k=request.POST['book']
         print(request.POST)
-        return render(request,'Home_Page.html')
-    # else:
-        # return render(request,'Search.html')
+        print('xyz')
+        return HttpResponseRedirect('home/')
