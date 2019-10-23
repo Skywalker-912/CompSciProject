@@ -118,14 +118,19 @@ def seereg(request):
 def seeschedule(request):
     global x
     global train
-    if not train:
-        curs.execute('Select * from bookticket_train')
-        trainall=curs.fetchall()
-        return render(request,'Schedule.html',{'train':trainall,'al':x})
-    else:
-        return render(request,'Schedule.html',{'train':train,'al':x,'btest':True})
-def seeform(request):
     if request.method=="POST":
-        print(request.POST)
-        print('xyz')
-        return HttpResponseRedirect('home/')
+        return HttpResponseRedirect('../home')
+    else:
+        if not train:
+            curs.execute('Select * from bookticket_train')
+            trainall=curs.fetchall()
+            return render(request,'Schedule.html',{'train':trainall,'al':x})
+        else:
+            t=train
+            train=[]
+            return render(request,'Schedule.html',{'train':t,'al':x,'btest':True})
+# def seeform(request):
+    # if request.method=="POST":
+        # print(request.POST)
+        # print('xyz')
+        # return HttpResponseRedirect('home/')
