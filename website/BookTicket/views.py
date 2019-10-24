@@ -5,6 +5,7 @@ import os
 import mysql.connector
 import datetime
 from django.http import HttpResponseRedirect
+import random
 
 con=mysql.connector.connect(host="localhost", user="root", passwd="root",database="project")
 curs=con.cursor()
@@ -13,11 +14,16 @@ curs=con.cursor()
 
 x=[]
 train=[]
+pnrlist=[]
+tno=''
+day1=''
 datedict={'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':9,'Oct':10,'Nov':11,'Dec':12}
 daydict={1:'MON',2:'TUE',3:'WED',4:'THU',5:'FRI',6:'SAT',7:'SUN'}
 
 def seehomepg(request):
-    return render(request,'Home_Page.html',{'al':[]})
+    global x
+    x=[]
+    return render(request,'Home_Page.html',{'al':x})
 def seehome(request):
     global x
     return render(request,'Home_Page.html',{'al':x})
@@ -44,6 +50,7 @@ def seesearch(request):
     global train
     global x
     global datedict
+    global day1
     if request.method=="POST":
         fromstat=request.POST['fromstat']
         tostat=request.POST['tostat']
@@ -52,6 +59,7 @@ def seesearch(request):
         year=date[8:]
         dat=date[4:6]
         day=datetime.datetime(int(year),int(month),int(dat))
+        day1=day
         day=day.isoweekday()
         curs.execute("select train_no,station_id from bookticket_stops where station_id in ('{}','{}')".format(fromstat,tostat))
         sid=curs.fetchall()
@@ -118,8 +126,17 @@ def seereg(request):
 def seeschedule(request):
     global x
     global train
+    global tno
+    tno=''
     if request.method=="POST":
-        return HttpResponseRedirect('../home')
+        if x:
+            for i in request.POST:
+                if request.POST[i]=='Book':
+                    tno=i
+
+            return HttpResponseRedirect('../form')
+        else:
+            return HttpResponseRedirect('../login')
     else:
         if not train:
             curs.execute('Select * from bookticket_train')
@@ -129,8 +146,35 @@ def seeschedule(request):
             t=train
             train=[]
             return render(request,'Schedule.html',{'train':t,'al':x,'btest':True})
-# def seeform(request):
-    # if request.method=="POST":
-        # print(request.POST)
-        # print('xyz')
-        # return HttpResponseRedirect('home/')
+def seeform(request):
+    global x
+    global train
+    global pnrlist
+    global tno
+    global day1
+    if request.method=="POST":
+        psgname=request.POST['name']
+        age=request.POST['age']
+        gender=request.POST['gender']
+        quota=request.POST['quota']
+        pnr=random.randint(1000000000,9999999999)
+        while True:
+            if pnr not in pnrlist:
+                pnrlist+=[pnr]
+                break
+            else:
+                pnr=random.randint(1000000000,9999999999)
+        for i in train:
+            if i[0]==tno:
+                trtup=i
+        tno=''
+        seat=random.randint(1,50)
+        day=day1
+        day1=''
+        curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(psgname,gender,age))
+        curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Quota)values({},'{}',{},'{}','{}','{}','{}')".format(pnr,trtup[0],seat_no,day,trtup[4],))
+        con.commit()
+        return render(request,'Home_Page.html',{'al':x})
+    else:
+        return render(request,"Passenger Details.html",{'al':x})
+    

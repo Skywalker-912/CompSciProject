@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="{% static "BookTicket/css/materialize.css" %} ">
 
 
-  <title>Register</title>
+  <title>Form</title>
   <link href="{% static "BookTicket/fonts/font-awesome-icon.html" %}" rel="stylesheet">
   <link rel="stylesheet" type="text/css"
     href="{% static "BookTicket/css/materialize.css" %}">
@@ -82,7 +82,7 @@
       <h1 class="red-text"><img height="141.5px" width="300px" src="{% static "BookTicket/images/traingif.gif" %}"></h1></img>
       <div class="section"></div>
 
-      <h5 class="indigo-text">Enter account details</h5>
+      <h5 class="indigo-text">Enter passenger details</h5>
       <div class="section"></div>
 
       <div class="container">
@@ -94,28 +94,22 @@
               <div class='col s12'>
               </div>
             </div>
-
+            <div class="row">
+                    {%for i in al%}
+                    <div class="input-field col s12">
+                        
+                      <input disabled value="{{i.aname}}" id="disabled" type="text" class="validate">
+                      
+                      <label for="disabled">Enter user name</label>
+                    </div>
+                    {%endfor%}
+                  </div>
             <div class='row'>
                 <div class='input-field col s12'>
                   <input class='validate' type='text' name='name' id='name' />
-                  <label for='name'>Enter your name</label>
+                  <label for='name'>Enter passenger name</label>
                 </div>
               </div>
-
-            <div class='row'>
-              <div class='input-field col s12'>
-                <input class='validate' type='email' name='email' id='email' />
-                <label for='email'>Enter your email</label>
-              </div>
-            </div>
-
-            <div class='row'>
-              <div class='input-field col s12'>
-                <input class='validate' type='password' name='password' id='password' />
-                <label for='password'>Enter your password</label>
-              </div>
-            </div>
-
 
             <div class='row'>
                 <div class='input-field col s12'>
@@ -124,26 +118,32 @@
                 </div>
               </div>
               <div class="row">
-                <div class="inline-radio left">
-                  <div class="gender-male">
-                    <label>
-                    <input class="with-gap" name="gender" type="radio" id="male" value="M" />
-                    <span>Male</span>
-                  </label>
-                  </div>
-                  <div class="gender-female">
-                    <label>
-                        <input class="with-gap" name="gender" type="radio" id="female" value="F" />
-                        <span>Female</span>
+                    <div class="inline-radio left">
+                      <div class="gender-male">
+                        <label>
+                        <input class="with-gap" name="gender" type="radio" id="male" value="M" />
+                        <span>Male</span>
                       </label>
+                      </div>
+                      <div class="gender-female">
+                        <label>
+                            <input class="with-gap" name="gender" type="radio" id="female" value="F" />
+                            <span>Female</span>
+                          </label>
+                      </div>
+                    </div>
                   </div>
-                </div>
+              <div class="row">
+                <div class='input-field col s12'>
+                    <input class='validate' type='text' name='quota' id='quota' />
+                    <label for='quota'>Enter quota</label>
+                  </div>
               </div>
 
             <br />
             <center>
               <div class='row'>
-                <button type='submit' name='btn_login' value="Login" class='col s12 btn btn-large waves-effect indigo'>Login</button>
+                <button type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Submit</button>
               </div>
             </center>
           </form>

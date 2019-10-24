@@ -13,7 +13,6 @@ class user(models.Model):
 class Journey(models.Model):
     PNR_No = models.IntegerField(max_length=10)
     Train_No = models.CharField(max_length=50)
-    Coach_No = models.CharField(max_length=5)
     Seat_No = models.IntegerField()
     Date = models.DateField()
     time = models.TimeField()
