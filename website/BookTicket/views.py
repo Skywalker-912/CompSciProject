@@ -6,6 +6,7 @@ import mysql.connector
 import datetime
 from django.http import HttpResponseRedirect
 import random
+import time
 
 con=mysql.connector.connect(host="localhost", user="root", passwd="root",database="project")
 curs=con.cursor()
@@ -151,7 +152,9 @@ def seeform(request):
     global pnrlist
     global tno
     global day1
+    print('hi')
     if request.method=="POST":
+        print('hello')
         psgname=request.POST['name']
         age=request.POST['age']
         gender=request.POST['gender']
@@ -179,6 +182,7 @@ def seeform(request):
         print(pid)
         curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota)values('{}','{}',{},'{}','{}','{}',{},'{}')".format(pnr,trtup[0],seat,day,trtup[4],user,pid,quota))
         con.commit()
+        time.sleep(3)
         return render(request,'Home_Page.html',{'al':x})
     else:
         return render(request,"Passenger Details.html",{'al':x})

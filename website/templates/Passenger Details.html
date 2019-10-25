@@ -66,15 +66,49 @@
         <li><a href="..\home">Home</a></li>
         <li><a href="..\home#follow">About</a></li>
         <li><a href="..\home#contact">Contact</a></li>
-        <li><a href="..\login">Login</a></li>
+        <li>
+          {%if al%}
+          <label class="dropdown-trigger" for="user" hover="true" data-target="dropdown2" href="#"><i class="material-icons white-text">person_pin</i></label>
+          <!-- Dropdown Structure -->
+          <ul id='dropdown2' class='dropdown-content collection'>
+              {%for i in al%}
+                
+                  <li><a><h6>{{i.aname}}</h6></a></li>
+                  <!-- <li><a><h6>{{i.aemail}}</h6></a></li> -->
+                  <li><a href="..\homepg"><h6>Logout</h6></a></li>
+                  
+                  {%endfor%}
+    
+                
+              </ul>
+      {%else%}
+      <a href="../login">Login</a>
+      {%endif%}
+</li>
       </ul>
     </div>
   </nav>
   <ul class="sidenav" id="mobile-links">
-    <li><a href="..\home">Home</a></li>
-    <li><a href="..\home#follow">About</a></li>
-    <li><a href="..\home#contact">Contact</a></li>
-    <li><a href="..\login">Login</a></li>
+      <li>
+        <div class="container">
+          {%if al%}
+                <label class="dropdown-trigger" for="user" hover="true" data-target="dropdown4" href="#"><i class="center-align material-icons teal-text medium">person_pin</i></label>
+                <!-- Dropdown Structure -->
+                <ul id='dropdown4' class='dropdown-content collection'>
+                    {%for i in al%}
+                      
+                    <li><a><h6>{{i.aname}}</h6></a></li>
+                    <!-- <li><a><h6>{{i.aemail}}</h6></a></li> -->
+                    <li><a href="..\homepg"><h6>Logout</h6></a></li>
+                    
+                    {%endfor%}
+                    </ul>
+          {%endif%}
+          </li>
+        </div>
+    <li><a href="..\home" class="teal-text">Home</a></li>
+    <li><a href="..\home#follow" class="teal-text">About</a></li>
+    <li><a href="..\home#contact" class="teal-text">Contact</a></li>
   </ul>
   <div class="section"></div>
   <main>
@@ -144,20 +178,18 @@
             <center>
               <!-- <div class="row"> -->
                   <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Submit</a> -->
-<!--  -->
-                  <!-- Modal Structure -->
                   <!-- <div id="modal1" class="modal"> -->
                     <!-- <div class="modal-content"> -->
                       <!-- <h4>Ticket Booked</h4> -->
                       <!--  -->
                     <!-- </div> -->
                     <!-- <div class="modal-footer"> -->
-                      <!-- <button href="#!" class="modal-close waves-effect indigo btn" type="submit" name='btn_login' value='Submit'>OK</button> -->
+                      <!-- <a class="modal-close waves-effect indigo btn" type="submit" name='btn_login' value='Submit'>OK</a> -->
                     <!-- </div> -->
                   <!-- </div> -->
               <!-- </div> -->
               <div class='row'>
-                <button type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Submit</button>
+                <button onclick="M.toast({html: 'Ticket Booked'})" type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Submit</button>
               </div>
             </center>
           </form>
@@ -175,6 +207,11 @@
     $(document).ready(function () {
       $('.sidenav').sidenav();
       $('.modal').modal();
+      $('.dropdown-trigger').dropdown({
+          hover:true,
+          coverTrigger:false
+          // belowOrigin:true
+        });
     })
   </script>
 </body>
