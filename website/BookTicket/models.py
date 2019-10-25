@@ -11,7 +11,7 @@ class user(models.Model):
     Email = models.CharField(max_length=100)
     City = models.CharField(max_length=50)
 class Journey(models.Model):
-    PNR_No = models.IntegerField(max_length=10)
+    PNR_No = models.CharField(max_length=10)
     Train_No = models.CharField(max_length=50)
     Seat_No = models.IntegerField()
     Date = models.DateField()

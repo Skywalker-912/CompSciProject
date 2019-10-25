@@ -144,7 +144,6 @@ def seeschedule(request):
             return render(request,'Schedule.html',{'train':trainall,'al':x})
         else:
             t=train
-            train=[]
             return render(request,'Schedule.html',{'train':t,'al':x,'btest':True})
 def seeform(request):
     global x
@@ -163,16 +162,22 @@ def seeform(request):
                 pnrlist+=[pnr]
                 break
             else:
-                pnr=random.randint(1000000000,9999999999)
+                pnr=str(random.randint(1000000000,9999999999))
         for i in train:
             if i[0]==tno:
                 trtup=i
+        print(trtup)
         tno=''
         seat=random.randint(1,50)
         day=day1
         day1=''
+        user=x[0].aname
+        
         curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(psgname,gender,age))
-        curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Quota)values({},'{}',{},'{}','{}','{}','{}')".format(pnr,trtup[0],seat_no,day,trtup[4],))
+        curs.execute("select passenger_id from bookticket_passenger")
+        pid=curs.fetchall()[-1][0]
+        print(pid)
+        curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota)values('{}','{}',{},'{}','{}','{}',{},'{}')".format(pnr,trtup[0],seat,day,trtup[4],user,pid,quota))
         con.commit()
         return render(request,'Home_Page.html',{'al':x})
     else:
