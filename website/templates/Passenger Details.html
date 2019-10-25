@@ -142,6 +142,20 @@
 
             <br />
             <center>
+              <!-- <div class="row"> -->
+                  <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Submit</a> -->
+<!--  -->
+                  <!-- Modal Structure -->
+                  <!-- <div id="modal1" class="modal"> -->
+                    <!-- <div class="modal-content"> -->
+                      <!-- <h4>Ticket Booked</h4> -->
+                      <!--  -->
+                    <!-- </div> -->
+                    <!-- <div class="modal-footer"> -->
+                      <!-- <button href="#!" class="modal-close waves-effect indigo btn" type="submit" name='btn_login' value='Submit'>OK</button> -->
+                    <!-- </div> -->
+                  <!-- </div> -->
+              <!-- </div> -->
               <div class='row'>
                 <button type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Submit</button>
               </div>
@@ -159,7 +173,8 @@
     <script src="{% static "BookTicket/js/materialize.min.js" %}"></script>
   <script>
     $(document).ready(function () {
-      $('.sidenav').sidenav()
+      $('.sidenav').sidenav();
+      $('.modal').modal();
     })
   </script>
 </body>
