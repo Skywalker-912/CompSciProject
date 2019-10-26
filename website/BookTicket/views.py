@@ -56,12 +56,18 @@ def seesearch(request):
         fromstat=request.POST['fromstat']
         tostat=request.POST['tostat']
         date=request.POST['date']
-        month=datedict[date[0:3]]
-        year=date[8:]
-        dat=date[4:6]
-        day=datetime.datetime(int(year),int(month),int(dat))
-        day1=day
-        day=day.isoweekday()
+        datesplit=date.split('-')
+        if len(datesplit)!=3:
+            return render(request,'Search.html',{'al':x})
+        year,month,dat=datesplit
+        fdate=datetime.datetime(int(year),int(month),int(dat))
+        day=fdate.isoweekday()
+        # month=datedict[date[0:3]]
+        # year=date[8:]
+        # dat=date[4:6]
+        # day=datetime.datetime(int(year),int(month),int(dat))
+        # day1=day
+        # day=day.isoweekday()
         curs.execute("select train_no,station_id from bookticket_stops where station_id in ('{}','{}')".format(fromstat,tostat))
         sid=curs.fetchall()
         stop=[]
@@ -92,8 +98,8 @@ def seesearch(request):
             for i in daycheck:
                 if i[0]==daydict[day]:
                     train+=[(train_no,train_name,source,dest,artime,deptime)]
-            
-        return HttpResponseRedirect('../schedule',{'train':train,'btest':True})
+        
+                return HttpResponseRedirect('../schedule')
     else:
         return render(request,'Search.html',{'al':x})
 def seereg(request):
@@ -152,9 +158,7 @@ def seeform(request):
     global pnrlist
     global tno
     global day1
-    print('hi')
     if request.method=="POST":
-        print('hello')
         psgname=request.POST['name']
         age=request.POST['age']
         gender=request.POST['gender']
@@ -169,7 +173,6 @@ def seeform(request):
         for i in train:
             if i[0]==tno:
                 trtup=i
-        print(trtup)
         tno=''
         seat=random.randint(1,50)
         day=day1

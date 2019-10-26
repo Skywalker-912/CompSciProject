@@ -167,7 +167,10 @@
   <script>
     $(document).ready(function () {
       $('.sidenav').sidenav()
-      $('.datepicker').datepicker()
+      $('.datepicker').datepicker({
+        minDate: new Date(),
+        format: 'yyyy-mm-dd'
+      });
       $('.dropdown-trigger').dropdown({
           hover:true,
           coverTrigger:false
