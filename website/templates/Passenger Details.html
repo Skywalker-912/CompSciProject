@@ -71,13 +71,12 @@
           <label class="dropdown-trigger" for="user" hover="true" data-target="dropdown2" href="#"><i class="material-icons white-text">person_pin</i></label>
           <!-- Dropdown Structure -->
           <ul id='dropdown2' class='dropdown-content collection'>
-              {%for i in al%}
                 
-                  <li><a><h6>{{i.aname}}</h6></a></li>
+                  <li><a><h6>{{al.1}}</h6></a></li>
                   <!-- <li><a><h6>{{i.aemail}}</h6></a></li> -->
                   <li><a href="..\homepg"><h6>Logout</h6></a></li>
                   
-                  {%endfor%}
+                 
     
                 
               </ul>
@@ -95,13 +94,13 @@
                 <label class="dropdown-trigger" for="user" hover="true" data-target="dropdown4" href="#"><i class="center-align material-icons teal-text medium">person_pin</i></label>
                 <!-- Dropdown Structure -->
                 <ul id='dropdown4' class='dropdown-content collection'>
-                    {%for i in al%}
+                  
                       
-                    <li><a><h6>{{i.aname}}</h6></a></li>
+                    <li><a><h6>{{al.1}}</h6></a></li>
                     <!-- <li><a><h6>{{i.aemail}}</h6></a></li> -->
                     <li><a href="..\homepg"><h6>Logout</h6></a></li>
                     
-                    {%endfor%}
+                    
                     </ul>
           {%endif%}
           </li>
@@ -129,14 +128,14 @@
               </div>
             </div>
             <div class="row">
-                    {%for i in al%}
+                    
                     <div class="input-field col s12">
                         
-                      <input disabled value="{{i.aname}}" id="disabled" type="text" class="validate">
+                      <input disabled value="{{al.1}}" id="disabled" type="text" class="validate">
                       
                       <label for="disabled">Enter user name</label>
                     </div>
-                    {%endfor%}
+                    
                   </div>
             <div class='row'>
                 <div class='input-field col s12'>
@@ -189,7 +188,7 @@
                   <!-- </div> -->
               <!-- </div> -->
               <div class='row'>
-                <button onclick="M.toast({html: 'Ticket Booked'})" type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Submit</button>
+                <button onclick="M.toast({html: 'Ticket Booked\nYour PNR number is {{pnr}}'})" type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Submit</button>
               </div>
             </center>
           </form>

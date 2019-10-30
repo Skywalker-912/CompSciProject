@@ -65,13 +65,13 @@
           <label class="dropdown-trigger" for="user" hover="true" data-target="dropdown2" href="#"><i class="material-icons white-text">person_pin</i></label>
           <!-- Dropdown Structure -->
           <ul id='dropdown2' class='dropdown-content collection'>
-              {%for i in al%}
+          
                 
-                  <li><a><h6>{{i.aname}}</h6></a></li>
+                  <li><a><h6>{{al.1}}</h6></a></li>
                   <!-- <li><a><h6>{{i.aemail}}</h6></a></li> -->
                   <li><a href="..\homepg"><h6>Logout</h6></a></li>
                   
-                  {%endfor%}
+           
     
                 
               </ul>
@@ -89,13 +89,13 @@
                 <label class="dropdown-trigger" for="user" hover="true" data-target="dropdown4" href="#"><i class="center-align material-icons teal-text medium">person_pin</i></label>
                 <!-- Dropdown Structure -->
                 <ul id='dropdown4' class='dropdown-content collection'>
-                    {%for i in al%}
+             
                       
-                    <li><a><h6>{{i.aname}}</h6></a></li>
+                    <li><a><h6>{{al.1}}</h6></a></li>
                     <!-- <li><a><h6>{{i.aemail}}</h6></a></li> -->
                     <li><a href="..\homepg"><h6>Logout</h6></a></li>
                     
-                    {%endfor%}
+            
                     </ul>
           {%endif%}
           </li>
