@@ -61,7 +61,13 @@ def seelogin(request):
     #     return render(request,'Login.html',{'al':[]})
 def seepnr(request):
     global x
-    return render(request,'PNR status.html',{'al':x})
+    if request.method=='POST':
+        pnrno=request.POST['pnr']
+        curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota,status from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and PNR_No={}".format(pnrno))
+        pnrdetails=curs.fetchall()
+        return render(request,'Tickets.html',{'al':x,'tickets':pnrdetails,'btest':False})
+    else:    
+        return render(request,'PNR status.html',{'al':x})
 def seesearch(request):
     global train
     global x
@@ -201,10 +207,34 @@ def seeform(request):
         curs.execute("select passenger_id from bookticket_passenger")
         pid=curs.fetchall()[-1][0]
         print(pid)
-        curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota)values('{}','{}',{},'{}','{}','{}',{},'{}')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,quota))
+        curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,quota))
         con.commit()
         time.sleep(3)
         return render(request,'Home_Page.html',{'al':x})
     else:
         return render(request,"Passenger Details.html",{'al':x,'pnr':pnr})
+def seeticket(request):
+    global x
     
+    if request.method=="POST":
+        print(request.POST)
+        for i in request.POST:
+            if request.POST[i]=='Cancel':
+                curs.execute("update bookticket_journey set status='Cancelled' where pnr_no={}".format(i))
+                con.commit()
+                curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user='{}' and status='Booked'".format(x[1]))
+                tickbook=curs.fetchall()
+                curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user='{}' and status='Cancelled'".format(x[1]))
+                tickcancel=curs.fetchall()
+                time.sleep(2)
+        return render(request,'Tickets.html',{'al':x,'tickets':tickbook,'cancel':tickcancel,'btest':True})
+        
+    else:
+        if x:
+            curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user='{}' and status='Booked'".format(x[1]))
+            tickbook=curs.fetchall()
+            curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user='{}' and status='Cancelled'".format(x[1]))
+            tickcancel=curs.fetchall()
+            return render(request,'Tickets.html',{'al':x,'tickets':tickbook,'cancel':tickcancel,'btest':True})
+        else:
+            return HttpResponseRedirect('../login')

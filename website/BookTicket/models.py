@@ -19,6 +19,7 @@ class Journey(models.Model):
     Booked_user=models.CharField(max_length=50)
     Passenger_id=models.CharField(max_length=50)
     Quota=models.CharField(max_length=100)
+    Status=models.CharField(max_length=15,default='Booked')
 class Station(models.Model):
     Station_Code = models.CharField(primary_key=True,max_length=10)
     Station_name = models.CharField(max_length=100)

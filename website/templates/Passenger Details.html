@@ -167,10 +167,15 @@
                     </div>
                   </div>
               <div class="row">
-                <div class='input-field col s12'>
-                    <input class='validate' type='text' name='quota' id='quota' />
-                    <label for='quota'>Enter quota</label>
-                  </div>
+                  <div class="input-field col s12">
+                      <select name='quota'>
+                        <option value=""  disabled selected>Choose quota</option>
+                        <option value="General">General</option>
+                        <option value="Divyaang">Divyaang</option>
+                        <option value="Tatkal">Tatkal</option>
+                      </select>
+                      <label>Quota</label>
+                    </div>
               </div>
 
             <br />
@@ -211,6 +216,7 @@
           coverTrigger:false
           // belowOrigin:true
         });
+      $('select').formSelect();
     })
   </script>
 </body>
