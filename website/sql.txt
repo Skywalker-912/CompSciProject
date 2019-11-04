@@ -1,0 +1,17 @@
+insert into bookticket_train values(22626,'MAS DOUBLE DECK','SBC','MAS','14:30:00','20:30:00',2500);
+Query OK, 1 row affected (0.14 sec)
+
+mysql> insert into bookticket_stops (Train_No,Station_id,day,arrival_time,Departure_time,platform_no,distance) values (22626,'SBC','TUE','14:30:00.000000','14:35:00.000000',4,0);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into bookticket_stops (Train_No,Station_id,day,arrival_time,Departure_time,platform_no,distance) values (22626,'KPD','TUE','17:58:00.000000','18:00:00.000000',3,232);
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into bookticket_stops (Train_No,Station_id,day,arrival_time,Departure_time,platform_no,distance) values (22626,'PER','TUE','19:38:00.000000','19:40:00.000000',2,356);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> insert into bookticket_stops (Train_No,Station_id,day,arrival_time,Departure_time,platform_no,distance) values (22626,'MAS^S','TUE','20:25:00.000000','20:30:00.000000',5,362);
+Query OK, 1 row affected (0.17 sec)
+
+mysql> update bookticket_stops set Station_id='MAS' where Station_id='MAS^S';
+Query OK, 1 row affected (0.14 sec)

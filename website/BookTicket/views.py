@@ -21,6 +21,7 @@ fdate=''
 pnr=0
 datedict={'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':9,'Oct':10,'Nov':11,'Dec':12}
 daydict={1:'MON',2:'TUE',3:'WED',4:'THU',5:'FRI',6:'SAT',7:'SUN'}
+flag=True
 
 def seehomepg(request):
     global x
@@ -40,10 +41,13 @@ def seelogin(request):
         print(acc)
         for i in acc:
             print(i)
+            # for j in i:
             if i[2]==email and i[3]==pwd:
                 x=i
                 print(x)
                 return render(request,'Home_Page.html',{'al':i})
+        else:
+            return render(request,'Login.html')
     else:
         return render(request,'Login.html',{'al':[]})
         # email=request.POST['email']
@@ -73,6 +77,7 @@ def seesearch(request):
     global x
     global datedict
     global fdate
+    global flag
     if request.method=="POST":
         fromstat=request.POST['fromstat']
         tostat=request.POST['tostat']
@@ -120,8 +125,9 @@ def seesearch(request):
             for i in daycheck:
                 if i[0]==daydict[day]:
                     train+=[(train_no,train_name,source,dest,artime,deptime)]
-        
-                return HttpResponseRedirect('../schedule')
+            if not train:
+                return render(request,'Schedule.html',{'train':[],'al':x,'btest':True})    
+            return HttpResponseRedirect('../schedule')
     else:
         return render(request,'Search.html',{'al':x})
 def seereg(request):
@@ -158,6 +164,7 @@ def seeschedule(request):
     global tno
     global pnrlist
     global pnr
+    global flag
     tno=''
     if request.method=="POST":
         if x:
@@ -175,7 +182,7 @@ def seeschedule(request):
         else:
             return HttpResponseRedirect('../login')
     else:
-        if not train:
+        if not flag:
             curs.execute('Select * from bookticket_train')
             trainall=curs.fetchall()
             return render(request,'Schedule.html',{'train':trainall,'al':x})
