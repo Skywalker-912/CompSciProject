@@ -59,10 +59,10 @@ def seelogin(request):
             # if email==a_list[i].aemail and pwd==a_list[i].apwd:
                 # x=a_list[i:i+1]
                 # return render(request,'Home_Page.html',{'al':x})
-            # else:
-                # return render(request,'Login.html')
+        # else:
+            # return render(request,'Login.html')
     # else:
-    #     return render(request,'Login.html',{'al':[]})
+        # return render(request,'Login.html',{'al':[]})
 def seepnr(request):
     global x
     if request.method=='POST':
@@ -103,8 +103,11 @@ def seesearch(request):
                 if j!=i and sid[i][0]==sid[j][0]:
                     if [sid[i],sid[j]][::-1] not in stop:
                         stop+=[[sid[i],sid[j]]]
+        print(sid)
+        print(stop)
         train=[]
         for t in stop:
+            print(t)
             train_no=t[0][0]
             source=t[0][1]
             dest=t[1][1]
@@ -125,37 +128,34 @@ def seesearch(request):
             for i in daycheck:
                 if i[0]==daydict[day]:
                     train+=[(train_no,train_name,source,dest,artime,deptime)]
-            if not train:
-                return render(request,'Schedule.html',{'train':[],'al':x,'btest':True})    
-            return HttpResponseRedirect('../schedule')
+            print(train)
+        if not train:
+            return render(request,'Schedule.html',{'train':[],'al':x,'btest':True})    
+        return HttpResponseRedirect('../schedule')
     else:
         return render(request,'Search.html',{'al':x})
 def seereg(request):
+    global x
     if request.method=="POST":
         name=request.POST['name']
         email=request.POST['email']
         pwd=request.POST['password']
         # repwd=request.POST['repassword']
         age=request.POST['age']
-        with open('data.csv','a') as file:
-            wcs=csv.writer(file)
-            wcs.writerow(["name",name])
-            wcs.writerow(["email",email])
-            wcs.writerow(["pwd",pwd])
-            # wcs.writerow(["repwd",repwd])
-            wcs.writerow(["age",age])
-        lst=Account()
-        lst.aname=name
-        lst.aemail=email
-        lst.apwd=pwd
-        lst.aage=age
-        lst.save()
-        a_list=Account.objects.all()
-        a_list=list(a_list)
-        print(a_list)    
-        k=a_list[-1:]
-        print(k)
-        return render(request,'Home_Page.html',{'al':k}) 
+        gender=request.POST['gender']
+        # with open('data.csv','a') as file:
+        #     wcs=csv.writer(file)
+        #     wcs.writerow(["name",name])
+        #     wcs.writerow(["email",email])
+        #     wcs.writerow(["pwd",pwd])
+        #     wcs.writerow(["repwd",repwd])
+        #     wcs.writerow(["age",age])
+        curs.execute("insert into bookticket_account (aname,aemail,apwd,aage,agender) values('{}','{}','{}',{},'{}')".format(name,email,pwd,age,gender))
+        con.commit()
+        curs.execute('select * from bookticket_account')
+        acc=curs.fetchall()
+        x=acc[-1]
+        return render(request,'Home_Page.html',{'al':x}) 
     else:
         return render(request,'Register.html')
 def seeschedule(request):
