@@ -15,3 +15,9 @@ Query OK, 1 row affected (0.17 sec)
 
 mysql> update bookticket_stops set Station_id='MAS' where Station_id='MAS^S';
 Query OK, 1 row affected (0.14 sec)
+
+
+
+var startDate = new Date();
+var endDate = new Date();
+endDate.setDate(endDate.getDate()+90)
