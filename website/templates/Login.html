@@ -107,16 +107,22 @@
                 <input class='validate' type='password' name='password' id='password' />
                 <label for='password'>Enter your password</label>
               </div>
-              <label style='float: right;'>
+              <!-- <label style='float: right;'>
                 <a class='pink-text' href='#!'><b>Forgot Password?</b></a>
-              </label>
+              </label> -->
             </div>
 
             <br />
             <center>
+              {%if ltest%}
               <div class='row'>
                 <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Login</button>
               </div>
+              {%else%}
+              <div class='row'>
+                  <button onclick="M.toast({html: 'Wrong username OR password'})" type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Login</button>
+              </div>
+              {%endif%}
             </center>
           </form>
         </div>

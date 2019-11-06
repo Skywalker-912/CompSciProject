@@ -35,21 +35,19 @@ def seelogin(request):
     if request.method=="POST":
         email=request.POST['email']
         pwd=request.POST['password']
-        print(email,pwd)
         curs.execute("select * from bookticket_account")
         acc=curs.fetchall()
-        print(acc)
         for i in acc:
-            print(i)
+
             # for j in i:
             if i[2]==email and i[3]==pwd:
                 x=i
-                print(x)
                 return render(request,'Home_Page.html',{'al':i})
         else:
-            return render(request,'Login.html')
+            time.sleep(3)
+            return render(request,'Login.html',{'ltest':False})
     else:
-        return render(request,'Login.html',{'al':[]})
+        return render(request,'Login.html',{'al':[],'ltest':False})
         # email=request.POST['email']
         # pwd=request.POST['password']
         # a=Account.objects.all()
@@ -88,7 +86,6 @@ def seesearch(request):
         year,month,dat=datesplit
         fdate=datetime.datetime(int(year),int(month),int(dat))
         day=fdate.isoweekday()
-        print(fdate,'bye')
         # month=datedict[date[0:3]]
         # year=date[8:]
         # dat=date[4:6]
@@ -103,21 +100,19 @@ def seesearch(request):
                 if j!=i and sid[i][0]==sid[j][0]:
                     if [sid[i],sid[j]][::-1] not in stop:
                         stop+=[[sid[i],sid[j]]]
-        print(sid)
-        print(stop)
         train=[]
         for t in stop:
-            print(t)
             train_no=t[0][0]
             source=t[0][1]
             dest=t[1][1]
-            curs.execute("select station_id,arrival_time from bookticket_stops where station_id in ('{}','{}')".format(source,dest))
+            curs.execute("select station_id,arrival_time,train_no from bookticket_stops where station_id in ('{}','{}')".format(source,dest))
             at=curs.fetchall()
             for i in at:
-                if i[0]==source:
-                    artime=i[1]
-                if i[0]==dest:
-                    deptime=i[1]
+                if i[2]==train_no:
+                    if i[0]==source:
+                        artime=i[1]
+                    if i[0]==dest:
+                        deptime=i[1]
             curs.execute("select train_no,train_name from bookticket_train")
             tr=curs.fetchall()
             for i in tr:
@@ -128,7 +123,6 @@ def seesearch(request):
             for i in daycheck:
                 if i[0]==daydict[day]:
                     train+=[(train_no,train_name,source,dest,artime,deptime)]
-            print(train)
         if not train:
             return render(request,'Schedule.html',{'train':[],'al':x,'btest':True})    
         return HttpResponseRedirect('../schedule')
@@ -136,13 +130,24 @@ def seesearch(request):
         return render(request,'Search.html',{'al':x})
 def seereg(request):
     global x
+    rtest=True
     if request.method=="POST":
         name=request.POST['name']
+        if not name:
+            rtest=False
         email=request.POST['email']
+        if not email:
+            rtest=False
         pwd=request.POST['password']
+        if not pwd:
+            rtest=False
         # repwd=request.POST['repassword']
         age=request.POST['age']
+        if not age:
+            rtest=False
         gender=request.POST['gender']
+        if not gender:
+            rtest=False
         # with open('data.csv','a') as file:
         #     wcs=csv.writer(file)
         #     wcs.writerow(["name",name])
@@ -150,12 +155,16 @@ def seereg(request):
         #     wcs.writerow(["pwd",pwd])
         #     wcs.writerow(["repwd",repwd])
         #     wcs.writerow(["age",age])
-        curs.execute("insert into bookticket_account (aname,aemail,apwd,aage,agender) values('{}','{}','{}',{},'{}')".format(name,email,pwd,age,gender))
-        con.commit()
-        curs.execute('select * from bookticket_account')
-        acc=curs.fetchall()
-        x=acc[-1]
-        return render(request,'Home_Page.html',{'al':x}) 
+        if rtest:
+            curs.execute("insert into bookticket_account (aname,aemail,apwd,aage,agender) values('{}','{}','{}',{},'{}')".format(name,email,pwd,age,gender))
+            con.commit()
+            curs.execute('select * from bookticket_account')
+            acc=curs.fetchall()
+            x=acc[-1]
+            return render(request,'Home_Page.html',{'al':x}) 
+        else:
+            time.sleep(3)
+            return render(request,'Register.html',{'rtest':rtest})
     else:
         return render(request,'Register.html')
 def seeschedule(request):
@@ -196,11 +205,18 @@ def seeform(request):
     global tno
     global fdate
     global pnr
+    ptest=True
     if request.method=="POST":
         psgname=request.POST['name']
+        if not psgname:
+            ptest=False
         age=request.POST['age']
+        if not age:
+            ptest=False
         gender=request.POST['gender']
         quota=request.POST['quota']
+        if not quota:
+            ptest=False
         for i in train:
             if i[0]==tno:
                 trtup=i
@@ -209,11 +225,9 @@ def seeform(request):
         date=fdate
         fdate=''
         user=x[1]
-        print(date,'hi')
         curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(psgname,gender,age))
         curs.execute("select passenger_id from bookticket_passenger")
         pid=curs.fetchall()[-1][0]
-        print(pid)
         curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,quota))
         con.commit()
         time.sleep(3)
@@ -224,7 +238,6 @@ def seeticket(request):
     global x
     
     if request.method=="POST":
-        print(request.POST)
         for i in request.POST:
             if request.POST[i]=='Cancel':
                 curs.execute("update bookticket_journey set status='Cancelled' where pnr_no={}".format(i))

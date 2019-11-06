@@ -127,7 +127,7 @@
                 <div class="inline-radio left">
                   <div class="gender-male">
                     <label>
-                    <input class="with-gap" name="gender" type="radio" id="male" value="M" />
+                    <input class="with-gap" name="gender" type="radio" id="male" value="M" checked  />
                     <span>Male</span>
                   </label>
                   </div>
@@ -142,9 +142,15 @@
 
             <br />
             <center>
+              {%if rtest%}
               <div class='row'>
                 <button type='submit' name='btn_login' value="Login" class='col s12 btn btn-large waves-effect indigo'>Login</button>
               </div>
+              {%else%}
+              <div class='row'>
+                  <button onclick="M.toast({html: 'Please fill all required fields'})" type='submit' name='btn_login' value="Login" class='col s12 btn btn-large waves-effect indigo'>Login</button>
+              </div>
+              {%endif%}
             </center>
           </form>
         </div>
