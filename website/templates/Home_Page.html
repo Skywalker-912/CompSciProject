@@ -234,7 +234,7 @@
             <div class="card-panel">
               <i class="material-icons large teal-text">train</i>
               <h4>Train schedule</h4>
-              <p><a href="..\schedule">Click here to view train schedule</a></p>
+              <p><a href="..\trschedule">Click here to view train schedule</a></p>
             </div>
           </div>
         </div>
@@ -390,28 +390,30 @@
           </div>
 
           <div class="col s12 m6">
-            <form class="col s12" method="GET">
+            <form class="col s12" method="POST" action="#">
+              {%csrf_token%}
               <div class="card-panel grey lighten-3">
                 <h5>Please fill out this form</h5>
                 <div class="input-field">
                     <i class="material-icons prefix teal-text">face</i>
-                  <input type="text" class="validate" id="name">
+                  <input type="text" class="validate" id="name" name="name" required>
                   <label for="name">Name</label>
                 </div>
                 <div class="input-field">
                     <i class="material-icons prefix teal-text">email</i>
-                  <input type="email" class="validate" id="email">
+                  <input type="email" class="validate" id="email" name="email" required>
                   <label for="email">Email</label>
                 </div>
                 <div class="input-field">
                     <i class="material-icons prefix teal-text">phone</i>
-                  <input type="text" class="validate" id="phone">
+                  <input type="text" class="validate" id="phone" name="phone" data-length="10" pattern="[0-9]{10}" required>
                   <label for="phone">Phone</label>
+                  <span class="helper-text" data-error="Please enter valid phone number"></span>
                 </div>
                 <div class="input-field">
                   <div class="input-field">
                     <i class="material-icons prefix teal-text">mode_edit</i>
-                    <input type="text" class="validate" id="message" data-length="150">
+                    <input type="text" class="validate" id="message" data-length="150" name="msg">
                     <label for="message">Message</label>
                   </div>
                   <!-- <textarea class="materialize-textarea" id="textarea1" data-length="150"></textarea> -->
@@ -434,6 +436,9 @@
     <script src="{% static "BookTicket/js/materialize.min.js" %}"></script>
     <script>
       $(document).ready(function () {
+        {%if ftest%}
+        M.toast({html: 'Thank You'})
+        {%endif%}
         $('.sidenav').sidenav();
         $('.scrollspy').scrollSpy();
         $('.tooltipped').tooltip();
@@ -445,6 +450,7 @@
         // $('#textarea1').val('');
         // M.textareaAutoResize($('#textarea1'));
         $('input#message').characterCounter();
+        $('input#phone').characterCounter();
         // $.widget.bridge('uitooltip', $.ui.tooltip);
         // Slider
         // const slider = document.querySelector('.slider');

@@ -62,3 +62,8 @@ class Account(models.Model):
     apwd=models.CharField(max_length=100)
     aage=models.IntegerField()
     agender=models.CharField(max_length=1)
+class Message(models.Model):
+    name=models.CharField(max_length=100)
+    email=models.CharField(max_length=200)
+    phone=models.CharField(max_length=10)
+    msg=models.CharField(max_length=150)

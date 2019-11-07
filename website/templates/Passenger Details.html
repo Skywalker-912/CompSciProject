@@ -131,7 +131,7 @@
                     
                     <div class="input-field col s12">
                         
-                      <input disabled value="{{al.1}}" id="disabled" type="text" class="validate">
+                      <input disabled value="{{al.1}}" id="disabled" type="text" class="validate" >
                       
                       <label for="disabled">Enter user name</label>
                     </div>
@@ -139,14 +139,14 @@
                   </div>
             <div class='row'>
                 <div class='input-field col s12'>
-                  <input class='validate' type='text' name='name' id='name' />
+                  <input class='validate' type='text' name='name' id='name' required />
                   <label for='name'>Enter passenger name</label>
                 </div>
               </div>
 
             <div class='row'>
                 <div class='input-field col s12'>
-                  <input class='validate' type='number' name='age' id='age' />
+                  <input class='validate' type='number' name='age' id='age' required />
                   <label for='age'>Enter Age</label>
                 </div>
               </div>
@@ -154,7 +154,7 @@
                     <div class="inline-radio left">
                       <div class="gender-male">
                         <label>
-                        <input class="with-gap" name="gender" type="radio" id="male" value="M" />
+                        <input class="with-gap" name="gender" type="radio" id="male" value="M" checked />
                         <span>Male</span>
                       </label>
                       </div>
@@ -169,8 +169,8 @@
               <div class="row">
                   <div class="input-field col s12">
                       <select name='quota'>
-                        <option value=""  disabled selected>Choose quota</option>
-                        <option value="General">General</option>
+                        <option value=""  disabled>Choose quota</option>
+                        <option value="General" selected>General</option>
                         <option value="Divyaang">Divyaang</option>
                         <option value="Tatkal">Tatkal</option>
                       </select>

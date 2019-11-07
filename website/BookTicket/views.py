@@ -29,7 +29,16 @@ def seehomepg(request):
     return render(request,'Home_Page.html',{'al':x})
 def seehome(request):
     global x
-    return render(request,'Home_Page.html',{'al':x})
+    if request.method=="POST":
+        name=request.POST['name']
+        email=request.POST['email']
+        phone=request.POST['phone']
+        msg=request.POST['msg']
+        curs.execute("insert into bookticket_message(name,email,phone,msg) values('{}','{}','{}','{}')".format(name,email,phone,msg))
+        con.commit()
+        return render(request,'Home_Page.html',{'al':x,'ftest':True})
+    else:
+        return render(request,'Home_Page.html',{'al':x})
 def seelogin(request):
     global x
     if request.method=="POST":
@@ -44,10 +53,9 @@ def seelogin(request):
                 x=i
                 return render(request,'Home_Page.html',{'al':i})
         else:
-            time.sleep(3)
             return render(request,'Login.html',{'ltest':False})
     else:
-        return render(request,'Login.html',{'al':[],'ltest':False})
+        return render(request,'Login.html',{'al':[],'ltest':True})
         # email=request.POST['email']
         # pwd=request.POST['password']
         # a=Account.objects.all()
@@ -130,24 +138,14 @@ def seesearch(request):
         return render(request,'Search.html',{'al':x})
 def seereg(request):
     global x
-    rtest=True
+ 
     if request.method=="POST":
-        name=request.POST['name']
-        if not name:
-            rtest=False
-        email=request.POST['email']
-        if not email:
-            rtest=False
-        pwd=request.POST['password']
-        if not pwd:
-            rtest=False
+        name=request.POST['name']      
+        email=request.POST['email']        
+        pwd=request.POST['password']       
         # repwd=request.POST['repassword']
-        age=request.POST['age']
-        if not age:
-            rtest=False
+        age=request.POST['age']      
         gender=request.POST['gender']
-        if not gender:
-            rtest=False
         # with open('data.csv','a') as file:
         #     wcs=csv.writer(file)
         #     wcs.writerow(["name",name])
@@ -155,7 +153,16 @@ def seereg(request):
         #     wcs.writerow(["pwd",pwd])
         #     wcs.writerow(["repwd",repwd])
         #     wcs.writerow(["age",age])
-        if rtest:
+        curs.execute("select aemail from bookticket_account")
+        emaillist=curs.fetchall()
+        for i in emaillist:
+            if i[0]==email:
+                flag=True
+                break
+            else:
+                flag=False
+        if flag==False:
+            
             curs.execute("insert into bookticket_account (aname,aemail,apwd,aage,agender) values('{}','{}','{}',{},'{}')".format(name,email,pwd,age,gender))
             con.commit()
             curs.execute('select * from bookticket_account')
@@ -163,8 +170,7 @@ def seereg(request):
             x=acc[-1]
             return render(request,'Home_Page.html',{'al':x}) 
         else:
-            time.sleep(3)
-            return render(request,'Register.html',{'rtest':rtest})
+            return render(request,'Register.html',{'rtest':True})
     else:
         return render(request,'Register.html')
 def seeschedule(request):
@@ -191,13 +197,14 @@ def seeschedule(request):
         else:
             return HttpResponseRedirect('../login')
     else:
-        if not flag:
-            curs.execute('Select * from bookticket_train')
-            trainall=curs.fetchall()
-            return render(request,'Schedule.html',{'train':trainall,'al':x})
-        else:
-            t=train
-            return render(request,'Schedule.html',{'train':t,'al':x,'btest':True})
+        return render(request,'Schedule.html',{'train':train,'al':x})
+        # if not flag:
+        #     curs.execute('Select * from bookticket_train')
+        #     trainall=curs.fetchall()
+        #     return render(request,'Schedule.html',{'train':trainall,'al':x})
+        # else:
+        #     t=train
+        #     return render(request,'Schedule.html',{'train':t,'al':x,'btest':True})
 def seeform(request):
     global x
     global train
@@ -258,3 +265,7 @@ def seeticket(request):
             return render(request,'Tickets.html',{'al':x,'tickets':tickbook,'cancel':tickcancel,'btest':True})
         else:
             return HttpResponseRedirect('../login')
+def seetrschedule(request):
+    curs.execute('Select * from bookticket_train')
+    trainall=curs.fetchall()
+    return render(request,'TrainSchedule.html',{'train':trainall,'al':x})

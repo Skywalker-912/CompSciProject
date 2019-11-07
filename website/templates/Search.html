@@ -163,9 +163,13 @@
     <script src="{% static "BookTicket/js/materialize.min.js" %}"></script>
   <script>
     $(document).ready(function () {
+      var startDate = new Date();
+      var endDate = new Date();
+      endDate.setDate(endDate.getDate()+90)
       $('.sidenav').sidenav()
       $('.datepicker').datepicker({
-        minDate: new Date(),
+        minDate: startDate,
+        maxDate: endDate,
         format: 'yyyy-mm-dd'
       });
       $('.dropdown-trigger').dropdown({

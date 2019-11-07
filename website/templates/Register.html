@@ -97,21 +97,21 @@
 
             <div class='row'>
                 <div class='input-field col s12'>
-                  <input class='validate' type='text' name='name' id='name' />
+                  <input class='validate' type='text' name='name' id='name' required />
                   <label for='name'>Enter your name</label>
                 </div>
               </div>
 
             <div class='row'>
               <div class='input-field col s12'>
-                <input class='validate' type='email' name='email' id='email' />
+                <input class='validate' type='email' name='email' id='email' required />
                 <label for='email'>Enter your email</label>
               </div>
             </div>
 
             <div class='row'>
               <div class='input-field col s12'>
-                <input class='validate' type='password' name='password' id='password' />
+                <input class='validate' type='password' name='password' id='password' required />
                 <label for='password'>Enter your password</label>
               </div>
             </div>
@@ -119,7 +119,7 @@
 
             <div class='row'>
                 <div class='input-field col s12'>
-                  <input class='validate' type='number' name='age' id='age' />
+                  <input class='validate' type='number' name='age' id='age' required />
                   <label for='age'>Enter Age</label>
                 </div>
               </div>
@@ -139,18 +139,11 @@
                   </div>
                 </div>
               </div>
-
             <br />
             <center>
-              {%if rtest%}
               <div class='row'>
                 <button type='submit' name='btn_login' value="Login" class='col s12 btn btn-large waves-effect indigo'>Login</button>
               </div>
-              {%else%}
-              <div class='row'>
-                  <button onclick="M.toast({html: 'Please fill all required fields'})" type='submit' name='btn_login' value="Login" class='col s12 btn btn-large waves-effect indigo'>Login</button>
-              </div>
-              {%endif%}
             </center>
           </form>
         </div>
@@ -166,6 +159,9 @@
   <script>
     $(document).ready(function () {
       $('.sidenav').sidenav()
+      {%if rtest%}
+      M.toast({html: 'Email already exists'})
+      {%endif%}
     })
   </script>
 </body>
