@@ -166,6 +166,9 @@
       var startDate = new Date();
       var endDate = new Date();
       endDate.setDate(endDate.getDate()+90)
+      {%if ttest%}
+      M.toast({html:'No trains found'})
+      {%endif%}
       $('.sidenav').sidenav()
       $('.datepicker').datepicker({
         minDate: startDate,

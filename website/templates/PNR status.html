@@ -163,6 +163,9 @@
     <script src="{% static "BookTicket/js/materialize.min.js" %}"></script>
   <script>
     $(document).ready(function () {
+      {%if ptest%}
+      M.toast({html:'PNR Number does not exist'})
+      {%endif%}
       $('.sidenav').sidenav()
       $('input#pnr').characterCounter();
       $('.dropdown-trigger').dropdown({

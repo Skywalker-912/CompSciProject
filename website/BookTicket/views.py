@@ -73,17 +73,27 @@ def seepnr(request):
     global x
     if request.method=='POST':
         pnrno=request.POST['pnr']
-        curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota,status from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and PNR_No={}".format(pnrno))
-        pnrdetails=curs.fetchall()
-        return render(request,'Tickets.html',{'al':x,'tickets':pnrdetails,'btest':False})
-    else:    
+        curs.execute("select pnr_no from bookticket_journey")
+        pnrcheck=curs.fetchall()
+        for i in pnrcheck:
+            if i[0]==pnrno:
+                flag=True
+                break
+            else:
+                flag=False
+        if flag==True:
+            curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota,status from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and PNR_No={}".format(pnrno))
+            pnrdetails=curs.fetchall()
+            return render(request,'Tickets.html',{'al':x,'tickets':pnrdetails,'btest':False})
+        else:
+            return render(request,'PNR status.html',{'al':x,'ptest':True})
+    else:
         return render(request,'PNR status.html',{'al':x})
 def seesearch(request):
     global train
     global x
     global datedict
     global fdate
-    global flag
     if request.method=="POST":
         fromstat=request.POST['fromstat']
         tostat=request.POST['tostat']
@@ -132,7 +142,8 @@ def seesearch(request):
                 if i[0]==daydict[day]:
                     train+=[(train_no,train_name,source,dest,artime,deptime)]
         if not train:
-            return render(request,'Schedule.html',{'train':[],'al':x,'btest':True})    
+            return render(request,'Search.html',{'al':x,'ttest':True,'train':[]})
+            # return render(request,'Schedule.html',{'train':[],'al':x,'btest':True})    
         return HttpResponseRedirect('../schedule')
     else:
         return render(request,'Search.html',{'al':x})
@@ -179,7 +190,6 @@ def seeschedule(request):
     global tno
     global pnrlist
     global pnr
-    global flag
     tno=''
     if request.method=="POST":
         if x:
