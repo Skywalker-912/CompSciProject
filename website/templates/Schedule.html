@@ -117,8 +117,8 @@
     
       </tr>
     </thead>
-    {%for i in train%}
     <tbody>
+      {%for i in train%}
       <tr>
         <td>{{i.0}}</td>
         <td>{{i.1}}</td>
@@ -131,8 +131,8 @@
         <td><input class="text btn indigo" type="submit" value="Book" name="{{i.0}}" action="#"></input></td>
       </form>
       </tr>
+      {%endfor%}
     </tbody>
-    {%endfor%}
   </table>
 </div>
     <div class="section"></div>

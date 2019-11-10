@@ -117,8 +117,9 @@
     
       </tr>
     </thead>
-    {%for i in train%}
+    
     <tbody>
+      {%for i in train%}
       <tr>
         <td>{{i.0}}</td>
         <td>{{i.1}}</td>
@@ -127,8 +128,9 @@
         <td>{{i.4}}</td>
         <td>{{i.5}}</td>
       </tr>
+      {%endfor%}
     </tbody>
-    {%endfor%}
+    
   </table>
 </div>
     <div class="section"></div>
