@@ -19,6 +19,7 @@ pnrlist=[]
 tno=''
 fdate=''
 pnr=0
+cost=0
 datedict={'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':9,'Oct':10,'Nov':11,'Dec':12}
 daydict={1:'MON',2:'TUE',3:'WED',4:'THU',5:'FRI',6:'SAT',7:'SUN'}
 flag=True
@@ -47,8 +48,6 @@ def seelogin(request):
         curs.execute("select * from bookticket_account")
         acc=curs.fetchall()
         for i in acc:
-
-            # for j in i:
             if i[2]==email and i[3]==pwd:
                 x=i
                 return render(request,'Home_Page.html',{'al':i})
@@ -56,19 +55,6 @@ def seelogin(request):
             return render(request,'Login.html',{'ltest':False})
     else:
         return render(request,'Login.html',{'al':[],'ltest':True})
-        # email=request.POST['email']
-        # pwd=request.POST['password']
-        # a=Account.objects.all()
-        # a_list=list(a)
-        # for i in range(len(a_list)):
-            # print(i)
-            # if email==a_list[i].aemail and pwd==a_list[i].apwd:
-                # x=a_list[i:i+1]
-                # return render(request,'Home_Page.html',{'al':x})
-        # else:
-            # return render(request,'Login.html')
-    # else:
-        # return render(request,'Login.html',{'al':[]})
 def seepnr(request):
     global x
     if request.method=='POST':
@@ -94,6 +80,7 @@ def seesearch(request):
     global x
     global datedict
     global fdate
+    global cost
     if request.method=="POST":
         fromstat=request.POST['fromstat']
         tostat=request.POST['tostat']
@@ -104,12 +91,6 @@ def seesearch(request):
         year,month,dat=datesplit
         fdate=datetime.datetime(int(year),int(month),int(dat))
         day=fdate.isoweekday()
-        # month=datedict[date[0:3]]
-        # year=date[8:]
-        # dat=date[4:6]
-        # day=datetime.datetime(int(year),int(month),int(dat))
-        # day1=day
-        # day=day.isoweekday()
         curs.execute("select train_no,station_id from bookticket_stops where station_id in ('{}','{}')".format(fromstat,tostat))
         sid=curs.fetchall()
         stop=[]
@@ -139,15 +120,18 @@ def seesearch(request):
                     train_name=i[1]
             print(i)
             curs.execute("select distance from bookticket_stops where train_no={} and station_id in ('{}','{}') ORDER BY FIELD (station_id,'{}','{}')".format(train_no,fromstat,tostat,fromstat,tostat) )
-            dis=curs.fetchall()
-            print(dis)
-            print(dis[0][0])
-            print(dis[1][0])
-            if dis[0][0]<dis[1][0]:
+            discheck=curs.fetchall()
+            if discheck[0][0]<discheck[1][0]:
                 flag=True
+                dis=discheck[1][0]-discheck[0][0]
             else:
                 flag=False
-            print(flag)
+            if dis<=50:
+                cost=200
+            elif dis>=500:
+                cost=5000
+            else:
+                cost=dis*10
             if flag:
                 curs.execute("select day from bookticket_stops where train_no={} and station_id='{}'".format(train_no,source))
                 daycheck=curs.fetchall()
@@ -158,7 +142,6 @@ def seesearch(request):
 
         if not train:
             return render(request,'Search.html',{'al':x,'ttest':True,'train':[]})
-            # return render(request,'Schedule.html',{'train':[],'al':x,'btest':True})    
         return HttpResponseRedirect('../schedule')
     else:
         return render(request,'Search.html',{'al':x})
@@ -169,16 +152,10 @@ def seereg(request):
         name=request.POST['name']      
         email=request.POST['email']        
         pwd=request.POST['password']       
-        # repwd=request.POST['repassword']
+
         age=request.POST['age']      
         gender=request.POST['gender']
-        # with open('data.csv','a') as file:
-        #     wcs=csv.writer(file)
-        #     wcs.writerow(["name",name])
-        #     wcs.writerow(["email",email])
-        #     wcs.writerow(["pwd",pwd])
-        #     wcs.writerow(["repwd",repwd])
-        #     wcs.writerow(["age",age])
+
         curs.execute("select aemail from bookticket_account")
         emaillist=curs.fetchall()
         for i in emaillist:
@@ -223,13 +200,7 @@ def seeschedule(request):
             return HttpResponseRedirect('../login')
     else:
         return render(request,'Schedule.html',{'train':train,'al':x})
-        # if not flag:
-        #     curs.execute('Select * from bookticket_train')
-        #     trainall=curs.fetchall()
-        #     return render(request,'Schedule.html',{'train':trainall,'al':x})
-        # else:
-        #     t=train
-        #     return render(request,'Schedule.html',{'train':t,'al':x,'btest':True})
+
 def seeform(request):
     global x
     global train
@@ -237,18 +208,13 @@ def seeform(request):
     global tno
     global fdate
     global pnr
+    global cost
     ptest=True
     if request.method=="POST":
         psgname=request.POST['name']
-        if not psgname:
-            ptest=False
         age=request.POST['age']
-        if not age:
-            ptest=False
         gender=request.POST['gender']
         quota=request.POST['quota']
-        if not quota:
-            ptest=False
         for i in train:
             if i[0]==tno:
                 trtup=i
@@ -257,13 +223,19 @@ def seeform(request):
         date=fdate
         fdate=''
         user=x[1]
-        curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(psgname,gender,age))
-        curs.execute("select passenger_id from bookticket_passenger")
-        pid=curs.fetchall()[-1][0]
-        curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,quota))
-        con.commit()
-        time.sleep(3)
-        return render(request,'Home_Page.html',{'al':x})
+        if quota=="Divyaang":
+            cost1=cost*3/4
+        elif quota=="Tatkal":
+            cost1=cost*1.5
+        else:
+            cost1=cost
+        print(cost,cost1)
+        # curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(psgname,gender,age))
+        # curs.execute("select passenger_id from bookticket_passenger")
+        # pid=curs.fetchall()[-1][0]
+        # curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,quota))
+        # con.commit()
+        return render(request,'Confirmation.html',{'al':x,'name':psgname,'age':age,'gender':gender,'quota':quota,'cost':cost1})
     else:
         return render(request,"Passenger Details.html",{'al':x,'pnr':pnr})
 def seeticket(request):
@@ -291,6 +263,20 @@ def seeticket(request):
         else:
             return HttpResponseRedirect('../login')
 def seetrschedule(request):
+    global x
     curs.execute('Select * from bookticket_train')
     trainall=curs.fetchall()
     return render(request,'TrainSchedule.html',{'train':trainall,'al':x})
+def seeconfirm(request):
+    global x
+    if request.method=="POST":
+        psgname=request.POST['name']
+        age=request.POST['age']
+        gender=request.POST['gender']
+        quota=request.POST['quota']
+        curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(psgname,gender,age))
+        curs.execute("select passenger_id from bookticket_passenger")
+        pid=curs.fetchall()[-1][0]
+        curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,quota))
+        con.commit()
+        return render(request,'Home_Page.html',{'al':x})

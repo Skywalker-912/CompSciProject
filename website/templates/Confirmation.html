@@ -115,7 +115,7 @@
       <h1 class="red-text"><img height="141.5px" width="300px" src="{% static "BookTicket/images/traingif.gif" %}"></h1></img>
       <div class="section"></div>
 
-      <h5 class="indigo-text">Enter passenger details</h5>
+      <h5 class="indigo-text">Confirm details</h5>
       <div class="section"></div>
 
       <div class="container">
@@ -139,18 +139,24 @@
                   </div>
             <div class='row'>
                 <div class='input-field col s12'>
-                  <input class='validate' type='text' name='name' id='name' required />
+                  <input disabled value="{{name}}" class='validate' type='text' name='name' id='name' required />
                   <label for='name'>Enter passenger name</label>
                 </div>
               </div>
 
             <div class='row'>
                 <div class='input-field col s12'>
-                  <input class='validate' type='number' name='age' id='age' required />
+                  <input disabled value="{{age}}" class='validate' type='number' name='age' id='age' required />
                   <label for='age'>Enter Age</label>
                 </div>
               </div>
-              <div class="row">
+              <div class='row'>
+                <div class='input-field col s12'>
+                  <input disabled value="{{gender}}" class='validate' type='text' name='gender' id='gender' required />
+                  <label for='gender'>Gender</label>
+                </div>
+              </div>
+              <!-- <div class="row">
                     <div class="inline-radio left">
                       <div class="gender-male">
                         <label>
@@ -165,8 +171,8 @@
                           </label>
                       </div>
                     </div>
-                  </div>
-              <div class="row">
+                  </div> -->
+              <!-- <div class="row">
                   <div class="input-field col s12">
                       <select name='quota'>
                         <option value=""  disabled>Choose quota</option>
@@ -176,7 +182,20 @@
                       </select>
                       <label>Quota</label>
                     </div>
+              </div> -->
+              <div class='row'>
+                <div class='input-field col s12'>
+                  <input disabled value="{{quota}}" class='validate' type='text' name='quota' id='quota' required />
+                  <label for='quota'>Quota</label>
+                </div>
               </div>
+              <div class='row'>
+                <div class='input-field col s12'>
+                  <input disabled value="{{cost}}" class='validate' type='number' name='cost' id='cost' required />
+                  <label for='cost'>Cost</label>
+                </div>
+              </div>
+
 
             <br />
             <center>
@@ -193,8 +212,7 @@
                   <!-- </div> -->
               <!-- </div> -->
               <div class='row'>
-                <!-- <button onclick="M.toast({html: 'Ticket Booked\nYour PNR number is {{pnr}}'})" type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Submit</button> -->
-                <button type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Submit</button>
+                <button onclick="M.toast({html: 'Ticket Booked<br>  The cost of your ticket is {{cost}} Your PNR number is {{pnr}}'})" type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Confirm</button>
               </div>
             </center>
           </form>

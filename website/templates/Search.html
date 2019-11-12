@@ -121,20 +121,56 @@
               </div>
             </div>
 
-            <div class="row">
+            <!-- <div class="row">
               <div class="input-field col s12">
                 <input type="text" id="autocomplete-input-1" class="autocomplete" name="fromstat" required>
                 <label for="autocomplete-input-1">Enter From Station</label>
               </div>
-            </div>
-
-
+            </div> -->
             <div class="row">
+              <div class="input-field col s12">
+                  <select name='fromstat'>
+                    <option value=""  selected>Choose From Station</option>
+                    <option value="SBC" selected>SBC</option>
+                    <option value="BNC">BNC</option>
+                    <option value="KPD">KPD</option>
+                    <option value="MAS">MAS</option>
+                    <option value="DLI">DLI</option>
+                    <option value="ALD">ALD</option>
+                    <option value="DHN">DHN</option>
+                    <option value="BPL">BPL</option>
+                    <option value="GWL">GWL</option>
+                    <option value="PER">PER</option>
+                  </select>
+                  <label>Choose From Station</label>
+                </div>
+          </div>
+
+
+            <!-- <div class="row">
               <div class="input-field col s12">
                 <input type="text" id="autocomplete-input-2" class="autocomplete" name="tostat" required>
                 <label for="autocomplete-input-2">Enter To Station</label>
               </div>
-            </div>
+            </div> -->
+            <div class="row">
+              <div class="input-field col s12">
+                  <select name='tostat'>
+                    <option value=""  selected>Choose To Station</option>
+                    <option value="SBC" selected>SBC</option>
+                    <option value="BNC">BNC</option>
+                    <option value="KPD">KPD</option>
+                    <option value="MAS">MAS</option>
+                    <option value="DLI">DLI</option>
+                    <option value="ALD">ALD</option>
+                    <option value="DHN">DHN</option>
+                    <option value="BPL">BPL</option>
+                    <option value="GWL">GWL</option>
+                    <option value="PER">PER</option>
+                  </select>
+                  <label>Choose To Station </label>
+                </div>
+          </div>
 
             <div class='row'>
               <div class='input-field col s12'>
@@ -163,6 +199,11 @@
     <script src="{% static "BookTicket/js/materialize.min.js" %}"></script>
   <script>
     $(document).ready(function () {
+      $('.dropdown-trigger').dropdown({
+          hover:true,
+          coverTrigger:false
+          // belowOrigin:true
+        });
       var startDate = new Date();
       var endDate = new Date();
       endDate.setDate(endDate.getDate()+90)
@@ -180,6 +221,7 @@
           coverTrigger:false
           // belowOrigin:true
         });
+        $('select').formSelect();
       $('input.autocomplete').autocomplete({
         data: {
           "SBC": null,
