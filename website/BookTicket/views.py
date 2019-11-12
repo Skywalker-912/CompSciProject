@@ -119,6 +119,7 @@ def seesearch(request):
                     if [sid[i],sid[j]][::-1] not in stop:
                         stop+=[[sid[i],sid[j]]]
         train=[]
+        print(stop)
         for t in stop:
             train_no=t[0][0]
             source=t[0][1]
@@ -136,11 +137,25 @@ def seesearch(request):
             for i in tr:
                 if i[0]==train_no:
                     train_name=i[1]
-            curs.execute("select day from bookticket_stops where train_no={} and station_id='{}'".format(train_no,source))
-            daycheck=curs.fetchall()
-            for i in daycheck:
-                if i[0]==daydict[day]:
-                    train+=[(train_no,train_name,source,dest,artime,deptime)]
+            print(i)
+            curs.execute("select distance from bookticket_stops where train_no={} and station_id in ('{}','{}') ORDER BY FIELD (station_id,'{}','{}')".format(train_no,fromstat,tostat,fromstat,tostat) )
+            dis=curs.fetchall()
+            print(dis)
+            print(dis[0][0])
+            print(dis[1][0])
+            if dis[0][0]<dis[1][0]:
+                flag=True
+            else:
+                flag=False
+            print(flag)
+            if flag:
+                curs.execute("select day from bookticket_stops where train_no={} and station_id='{}'".format(train_no,source))
+                daycheck=curs.fetchall()
+                for i in daycheck:
+                    if i[0]==daydict[day]:
+                        train+=[(train_no,train_name,source,dest,artime,deptime)]
+                print(train)
+
         if not train:
             return render(request,'Search.html',{'al':x,'ttest':True,'train':[]})
             # return render(request,'Schedule.html',{'train':[],'al':x,'btest':True})    
