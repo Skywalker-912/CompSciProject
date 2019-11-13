@@ -212,7 +212,9 @@
                   <!-- </div> -->
               <!-- </div> -->
               <div class='row'>
-                <button onclick="M.toast({html: 'Ticket Booked<br>  The cost of your ticket is {{cost}} Your PNR number is {{pnr}}'})" type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Confirm</button>
+                <!-- <button onclick="M.toast({html: 'Ticket Booked<br>The cost of your ticket is {{cost}} <br>Your PNR number is {{pnr}}'})" type='submit' name='btn_login' value="Submit" class='col s12 btn btn-large waves-effect indigo'>Confirm</button> -->
+                <input onclick="M.toast({html: 'Ticket Booked<br>The cost of your ticket is {{cost}} <br>Your PNR number is {{pnr}}'})" class="text btn-large indigo" type="submit" value="Confirm" name="Confirm" action="#"></input>&emsp;&emsp;&emsp;&emsp;
+                <input class="text btn-large red" type="submit" value="Edit" name="Edit" action="#"></input>
               </div>
             </center>
           </form>

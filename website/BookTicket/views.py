@@ -16,6 +16,7 @@ curs=con.cursor()
 x=[]
 train=[]
 pnrlist=[]
+confdets=[]
 tno=''
 fdate=''
 pnr=0
@@ -209,19 +210,20 @@ def seeform(request):
     global fdate
     global pnr
     global cost
+    global confdets
     ptest=True
     if request.method=="POST":
         psgname=request.POST['name']
         age=request.POST['age']
         gender=request.POST['gender']
         quota=request.POST['quota']
-        for i in train:
-            if i[0]==tno:
-                trtup=i
-        tno=''
-        seat=random.randint(1,50)
-        date=fdate
-        fdate=''
+        # for i in train:
+        #     if i[0]==tno:
+        #         trtup=i
+        # tno=''
+        # seat=random.randint(1,50)
+        # date=fdate
+        # fdate=''
         user=x[1]
         if quota=="Divyaang":
             cost1=cost*3/4
@@ -229,15 +231,16 @@ def seeform(request):
             cost1=cost*1.5
         else:
             cost1=cost
+        confdets=[x,psgname,age,gender,quota,cost1]
         print(cost,cost1)
         # curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(psgname,gender,age))
         # curs.execute("select passenger_id from bookticket_passenger")
         # pid=curs.fetchall()[-1][0]
         # curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,quota))
         # con.commit()
-        return render(request,'Confirmation.html',{'al':x,'name':psgname,'age':age,'gender':gender,'quota':quota,'cost':cost1})
+        return HttpResponseRedirect('../confirm')
     else:
-        return render(request,"Passenger Details.html",{'al':x,'pnr':pnr})
+        return render(request,"Passenger Details.html",{'al':x})
 def seeticket(request):
     global x
     
@@ -269,14 +272,35 @@ def seetrschedule(request):
     return render(request,'TrainSchedule.html',{'train':trainall,'al':x})
 def seeconfirm(request):
     global x
+    global confdets
+    global pnr
+    global train
+    global fdate
+    global tno
     if request.method=="POST":
-        psgname=request.POST['name']
-        age=request.POST['age']
-        gender=request.POST['gender']
-        quota=request.POST['quota']
-        curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(psgname,gender,age))
-        curs.execute("select passenger_id from bookticket_passenger")
-        pid=curs.fetchall()[-1][0]
-        curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,quota))
-        con.commit()
-        return render(request,'Home_Page.html',{'al':x})
+        print(request.POST)
+        for i in request.POST:
+            if request.POST[i]=='Confirm':
+                act='Confirm'
+            else:
+                act='Edit'
+        if act=='Confirm':
+            for i in train:
+                if i[0]==tno:
+                    trtup=i
+            tno=''
+            seat=random.randint(1,50)
+            date=fdate
+            fdate=''
+            user=x[1]
+            curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(confdets[1],confdets[3],confdets[2]))
+            curs.execute("select passenger_id from bookticket_passenger")
+            pid=curs.fetchall()[-1][0]
+            curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,confdets[4]))
+            con.commit()
+            time.sleep(2)
+            return render(request,'Home_Page.html',{'al':x})
+        else:
+            return HttpResponseRedirect('../form')
+    else:
+        return render(request,'Confirmation.html',{'al':x,'name':confdets[1],'age':confdets[2],'gender':confdets[3],'quota':confdets[4],'cost':confdets[5],'pnr':pnr})

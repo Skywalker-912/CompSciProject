@@ -28,5 +28,6 @@ urlpatterns = [
     path('schedule/',views.seeschedule),
     path('form/',views.seeform),
     path('tickets/',views.seeticket),
-    path('trschedule/',views.seetrschedule)
+    path('trschedule/',views.seetrschedule),
+    path('confirm/',views.seeconfirm)
 ]
