@@ -29,6 +29,8 @@ def seehomepg(request):
     global x
     x=[]
     return render(request,'Home_Page.html',{'al':x})
+#
+#On clicking on the logout button the home page is loaded. 'al' is the list that contains the user details, on logging out x is cleared.
 def seehome(request):
     global x
     if request.method=="POST":
@@ -41,6 +43,10 @@ def seehome(request):
         return render(request,'Home_Page.html',{'al':x,'ftest':True})
     else:
         return render(request,'Home_Page.html',{'al':x})
+#HOME PAGE
+#The method is POST when the user gives feedback. The name,email,phone and the maessage is added to the database.
+#If the method is GET the home page is loaded.
+
 def seelogin(request):
     global x
     if request.method=="POST":
@@ -56,6 +62,10 @@ def seelogin(request):
             return render(request,'Login.html',{'ltest':False})
     else:
         return render(request,'Login.html',{'al':[],'ltest':True})
+#LOGIN PAGE
+#If the method is post the email and password is taken. The password is checked using the values stored in the database.
+#If the password and the username do not match a message is shown. If it is correct it loads the home page.
+
 def seepnr(request):
     global x
     if request.method=='POST':
@@ -76,6 +86,10 @@ def seepnr(request):
             return render(request,'PNR status.html',{'al':x,'ptest':True})
     else:
         return render(request,'PNR status.html',{'al':x})
+#PNR DETAILS
+#The PNR number is taken as an input. 
+#If the PNR doesn't exist in the database a message is shown. If it exists the details of the tickets are sent to the schedule page.
+
 def seesearch(request):
     global train
     global x
@@ -217,13 +231,6 @@ def seeform(request):
         age=request.POST['age']
         gender=request.POST['gender']
         quota=request.POST['quota']
-        # for i in train:
-        #     if i[0]==tno:
-        #         trtup=i
-        # tno=''
-        # seat=random.randint(1,50)
-        # date=fdate
-        # fdate=''
         user=x[1]
         if quota=="Divyaang":
             cost1=cost*3/4
@@ -233,11 +240,6 @@ def seeform(request):
             cost1=cost
         confdets=[x,psgname,age,gender,quota,cost1]
         print(cost,cost1)
-        # curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(psgname,gender,age))
-        # curs.execute("select passenger_id from bookticket_passenger")
-        # pid=curs.fetchall()[-1][0]
-        # curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,quota))
-        # con.commit()
         return HttpResponseRedirect('../confirm')
     else:
         return render(request,"Passenger Details.html",{'al':x})
@@ -247,6 +249,7 @@ def seeticket(request):
     if request.method=="POST":
         for i in request.POST:
             if request.POST[i]=='Cancel':
+                
                 curs.execute("update bookticket_journey set status='Cancelled' where pnr_no={}".format(i))
                 con.commit()
                 curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user='{}' and status='Booked'".format(x[1]))

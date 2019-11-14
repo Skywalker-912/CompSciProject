@@ -2,14 +2,6 @@ from django.db import models
 # from sqlserver_ado.fields import DateField, DateTimeField, TimeField
 
 # Create your models here.
-class user(models.Model):
-    User_id = models.IntegerField(primary_key=True)
-    Password = models.CharField(max_length=25)
-    User_Name = models.CharField(max_length=100)
-    Gender = models.CharField(max_length=1)
-    Age = models.IntegerField()
-    Email = models.CharField(max_length=100)
-    City = models.CharField(max_length=50)
 class Journey(models.Model):
     PNR_No = models.CharField(max_length=10)
     Train_No = models.CharField(max_length=50)
