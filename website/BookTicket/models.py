@@ -2,6 +2,8 @@ from django.db import models
 # from sqlserver_ado.fields import DateField, DateTimeField, TimeField
 
 # Create your models here.
+
+#This table contains the details abo0ut each ticket booked.
 class Journey(models.Model):
     PNR_No = models.CharField(max_length=10)
     Train_No = models.CharField(max_length=50)
@@ -12,10 +14,12 @@ class Journey(models.Model):
     Passenger_id=models.CharField(max_length=50)
     Quota=models.CharField(max_length=100)
     Status=models.CharField(max_length=15,default='Booked')
+#This table contains the details of each station.
 class Station(models.Model):
     Station_Code = models.CharField(primary_key=True,max_length=10)
     Station_name = models.CharField(max_length=100)
     No_of_Platforms = models.IntegerField()
+#This table contains all the details of the trains
 class Train(models.Model):
     Train_No = models.CharField(primary_key=True,max_length=50)
     Train_name = models.CharField(max_length=100)
@@ -24,11 +28,13 @@ class Train(models.Model):
     Departure_time = models.TimeField()
     Arrival_time = models.TimeField()
     Capacity = models.IntegerField()
+#This table contains details of each passenger.
 class passenger(models.Model):
     Passenger_id = models.AutoField(primary_key=True)
     Passenger_name = models.CharField(max_length=100)
     Gender = models.CharField(max_length=1)
     Age = models.IntegerField()
+#This table contains the route of each train and the time and day that the train arrives.
 class Stops(models.Model):
     Train_No = models.CharField(max_length=50)
     Station_id = models.CharField(max_length=50)
@@ -39,21 +45,14 @@ class Stops(models.Model):
     Distance = models.IntegerField()
     class Meta:
         unique_together=('Train_No','Day','Arrival_time')
-class Seats(models.Model):
-    Train_No = models.CharField(max_length=50)
-    Station_id = models.CharField(max_length=50)
-    Type_of_seat = models.CharField(max_length=50)
-    Date = models.DateField()
-    Time = models.TimeField()
-    Availability = models.IntegerField()
-    class Meta:
-        unique_together=('Train_No','Type_of_seat','Date','Time')
+#This table contains the account details.
 class Account(models.Model):
     aname=models.CharField(max_length=100)
     aemail=models.CharField(max_length=200)
     apwd=models.CharField(max_length=100)
     aage=models.IntegerField()
     agender=models.CharField(max_length=1)
+#This table contains feedback messages and user details entered by the user.
 class Message(models.Model):
     name=models.CharField(max_length=100)
     email=models.CharField(max_length=200)
