@@ -13,6 +13,7 @@ curs=con.cursor()
 
 # Create your views here.
 
+#List of all global variables.
 x=[]
 train=[]
 pnrlist=[]
@@ -25,12 +26,16 @@ datedict={'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,'Jul':7,'Aug':8,'Sep':
 daydict={1:'MON',2:'TUE',3:'WED',4:'THU',5:'FRI',6:'SAT',7:'SUN'}
 flag=True
 
+#LOGGED OUT HOME PAGE
+#On clicking on the logout button the home page is loaded. 'al' is the list that contains the user details, on logging out x is cleared.
 def seehomepg(request):
     global x
     x=[]
     return render(request,'Home_Page.html',{'al':x})
-#
-#On clicking on the logout button the home page is loaded. 'al' is the list that contains the user details, on logging out x is cleared.
+
+#HOME PAGE
+#If the method is GET the home page is loaded.
+#The method is POST when the user gives feedback. The name,email,phone and the maessage is added to the database.
 def seehome(request):
     global x
     if request.method=="POST":
@@ -43,10 +48,11 @@ def seehome(request):
         return render(request,'Home_Page.html',{'al':x,'ftest':True})
     else:
         return render(request,'Home_Page.html',{'al':x})
-#HOME PAGE
-#The method is POST when the user gives feedback. The name,email,phone and the maessage is added to the database.
-#If the method is GET the home page is loaded.
 
+#LOGIN PAGE
+#If the method is post the login page is loaded.
+#If the method is post the email and password is taken. The password is checked using the values stored in the database.
+#If the password and the username do not match a message is shown. If it is correct it loads the home page.
 def seelogin(request):
     global x
     if request.method=="POST":
@@ -62,10 +68,10 @@ def seelogin(request):
             return render(request,'Login.html',{'ltest':False})
     else:
         return render(request,'Login.html',{'al':[],'ltest':True})
-#LOGIN PAGE
-#If the method is post the email and password is taken. The password is checked using the values stored in the database.
-#If the password and the username do not match a message is shown. If it is correct it loads the home page.
 
+#PNR DETAILS
+#The PNR number is taken as an input. 
+#If the PNR doesn't exist in the database a message is shown. If it exists the details of the tickets are sent to the schedule page.
 def seepnr(request):
     global x
     if request.method=='POST':
@@ -86,10 +92,11 @@ def seepnr(request):
             return render(request,'PNR status.html',{'al':x,'ptest':True})
     else:
         return render(request,'PNR status.html',{'al':x})
-#PNR DETAILS
-#The PNR number is taken as an input. 
-#If the PNR doesn't exist in the database a message is shown. If it exists the details of the tickets are sent to the schedule page.
 
+#SEARCH
+#If the method is get the from station,to station and date is taken from the user. A train is found satisfying the conditions.
+#If any train is found the details of the train is sent to the html and it is displayed. If there is no train a message is shown saying that no train is found
+#If the method is get the search page is loaded.
 def seesearch(request):
     global train
     global x
@@ -160,9 +167,13 @@ def seesearch(request):
         return HttpResponseRedirect('../schedule')
     else:
         return render(request,'Search.html',{'al':x})
+
+#REGISTER
+#If the method is get, the register page is loaded.
+#If the method is post name,email,password,age and gender are taken from the user.
+#If the email already exists in the database error message is displayed.If it doesnt exist,the details are added to the database and homepage is reloaded,logging in with the respective account.
 def seereg(request):
     global x
- 
     if request.method=="POST":
         name=request.POST['name']      
         email=request.POST['email']        
@@ -191,6 +202,11 @@ def seereg(request):
             return render(request,'Register.html',{'rtest':True})
     else:
         return render(request,'Register.html')
+
+#DETAILS OF TRAINS BASED ON INPUT
+#If the method is get,respective train details are shown.
+#If the method is post and the user is logged in, a random PNR number is generated and page is redirected to show the passenger details form
+#If the user is not logged in,page is redirected to login. 
 def seeschedule(request):
     global x
     global train
@@ -216,6 +232,10 @@ def seeschedule(request):
     else:
         return render(request,'Schedule.html',{'train':train,'al':x})
 
+#PASSENGER DETAILS
+#If the method is get,the passenger details form is shown.
+#If the method is post,the entered details are taken and stored.Depending on distance and quota cost is calculated.
+#The page is redirected to confirm page.
 def seeform(request):
     global x
     global train
@@ -243,6 +263,11 @@ def seeform(request):
         return HttpResponseRedirect('../confirm')
     else:
         return render(request,"Passenger Details.html",{'al':x})
+
+#TICKET DETAILS
+#If the method is get and the user is logged in,the details of booked and cancelled tickets are displayed.
+#If the user is not logged in,the page is redirected to login.
+#If the method is post,the selected ticket is cancelled.
 def seeticket(request):
     global x
     
@@ -268,11 +293,19 @@ def seeticket(request):
             return render(request,'Tickets.html',{'al':x,'tickets':tickbook,'cancel':tickcancel,'btest':True})
         else:
             return HttpResponseRedirect('../login')
+
+#TRAIN SCHEDULE
+#The details of all the trains are retrieved from the database and displayed.
 def seetrschedule(request):
     global x
     curs.execute('Select * from bookticket_train')
     trainall=curs.fetchall()
     return render(request,'TrainSchedule.html',{'train':trainall,'al':x})
+
+#CONFIRM DETAILS    
+#If the method is get, the confirm page is loaded along woth the details entered in the passenger details page.
+#If thhe method is post on clicking confirm, the details of the passenger is added to the database and the page is redirected to the home page.
+#If the method is post on clicking edit, the page is redirected back to passenger details page.
 def seeconfirm(request):
     global x
     global confdets
