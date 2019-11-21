@@ -298,9 +298,30 @@ def seeticket(request):
 #The details of all the trains are retrieved from the database and displayed.
 def seetrschedule(request):
     global x
-    curs.execute('Select * from bookticket_train')
+    curs.execute('Select Train_no,station_id from bookticket_stops')
+    stops=curs.fetchall()
+    stopdict={}
+    for i in stops:
+        stopdict[i[0]]=[]
+    for i in stops:
+        stopdict[i[0]]+=[i[1]]
+    print(stopdict)
+    print(stops)
+    curs.execute('Select Train_No,Train_name,Source,Destination,Departure_time,Arrival_time from bookticket_train')
     trainall=curs.fetchall()
-    return render(request,'TrainSchedule.html',{'train':trainall,'al':x})
+    t=(1,2)
+    t+=(2,4)
+    print(t)
+    trainfinal=[]
+    for i in trainall:
+        for j in stopdict:
+            print(str(stopdict[j])[1:-1])
+            if i[0]==j:
+                print('x')
+                i+=(str(stopdict[j])[1:-1],)
+                trainfinal+=[i]
+    print(trainfinal)
+    return render(request,'TrainSchedule.html',{'train':trainfinal,'al':x})
 
 #CONFIRM DETAILS    
 #If the method is get, the confirm page is loaded along woth the details entered in the passenger details page.

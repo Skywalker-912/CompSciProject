@@ -139,15 +139,16 @@
                   </div>
             <div class='row'>
                 <div class='input-field col s12'>
-                  <input class='validate' type='text' name='name' id='name' required />
+                  <input class='validate' type='text' name='name' id='name' pattern="[A-Za-z -]+" required />
                   <label for='name'>Enter passenger name</label>
                 </div>
               </div>
 
             <div class='row'>
                 <div class='input-field col s12'>
-                  <input class='validate' type='number' name='age' id='age' required />
+                  <input class='validate' type='number' name='age' id='age' pattern="[0-9]{3}" max=150 min=1 required />
                   <label for='age'>Enter Age</label>
+                  <span class="helper-text" data-error="Please enter valid age"></span>
                 </div>
               </div>
               <div class="row">
