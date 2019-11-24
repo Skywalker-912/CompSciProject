@@ -122,7 +122,6 @@ def seesearch(request):
                     if [sid[i],sid[j]][::-1] not in stop:
                         stop+=[[sid[i],sid[j]]]
         train=[]
-        print(stop)
         for t in stop:
             train_no=t[0][0]
             source=t[0][1]
@@ -140,7 +139,6 @@ def seesearch(request):
             for i in tr:
                 if i[0]==train_no:
                     train_name=i[1]
-            print(i)
             curs.execute("select distance from bookticket_stops where train_no={} and station_id in ('{}','{}') ORDER BY FIELD (station_id,'{}','{}')".format(train_no,fromstat,tostat,fromstat,tostat) )
             discheck=curs.fetchall()
             if discheck[0][0]<discheck[1][0]:
@@ -160,7 +158,6 @@ def seesearch(request):
                 for i in daycheck:
                     if i[0]==daydict[day]:
                         train+=[(train_no,train_name,source,dest,artime,deptime)]
-                print(train)
 
         if not train:
             return render(request,'Search.html',{'al':x,'ttest':True,'train':[]})
@@ -259,7 +256,6 @@ def seeform(request):
         else:
             cost1=cost
         confdets=[x,psgname,age,gender,quota,cost1]
-        print(cost,cost1)
         return HttpResponseRedirect('../confirm')
     else:
         return render(request,"Passenger Details.html",{'al':x})
@@ -305,22 +301,16 @@ def seetrschedule(request):
         stopdict[i[0]]=[]
     for i in stops:
         stopdict[i[0]]+=[i[1]]
-    print(stopdict)
-    print(stops)
     curs.execute('Select Train_No,Train_name,Source,Destination,Departure_time,Arrival_time from bookticket_train')
     trainall=curs.fetchall()
     t=(1,2)
     t+=(2,4)
-    print(t)
     trainfinal=[]
     for i in trainall:
         for j in stopdict:
-            print(str(stopdict[j])[1:-1])
             if i[0]==j:
-                print('x')
                 i+=(str(stopdict[j])[1:-1],)
                 trainfinal+=[i]
-    print(trainfinal)
     return render(request,'TrainSchedule.html',{'train':trainfinal,'al':x})
 
 #CONFIRM DETAILS    
@@ -335,7 +325,6 @@ def seeconfirm(request):
     global fdate
     global tno
     if request.method=="POST":
-        print(request.POST)
         for i in request.POST:
             if request.POST[i]=='Confirm':
                 act='Confirm'
