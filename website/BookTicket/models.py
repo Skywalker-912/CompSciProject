@@ -10,7 +10,7 @@ class Journey(models.Model):
     Seat_No = models.IntegerField()
     Date = models.DateField()
     time = models.TimeField()
-    Booked_user=models.CharField(max_length=50)
+    Booked_user_email=models.CharField(max_length=200)
     Passenger_id=models.CharField(max_length=50)
     Quota=models.CharField(max_length=100)
     Status=models.CharField(max_length=15,default='Booked')

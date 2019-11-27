@@ -273,18 +273,18 @@ def seeticket(request):
                 
                 curs.execute("update bookticket_journey set status='Cancelled' where pnr_no={}".format(i))
                 con.commit()
-                curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user='{}' and status='Booked'".format(x[1]))
+                curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user_email='{}' and status='Booked'".format(x[2]))
                 tickbook=curs.fetchall()
-                curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user='{}' and status='Cancelled'".format(x[1]))
+                curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user_email='{}' and status='Cancelled'".format(x[2]))
                 tickcancel=curs.fetchall()
                 time.sleep(2)
         return render(request,'Tickets.html',{'al':x,'tickets':tickbook,'cancel':tickcancel,'btest':True})
         
     else:
         if x:
-            curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user='{}' and status='Booked'".format(x[1]))
+            curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user_email='{}' and status='Booked'".format(x[2]))
             tickbook=curs.fetchall()
-            curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user='{}' and status='Cancelled'".format(x[1]))
+            curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user_email='{}' and status='Cancelled'".format(x[2]))
             tickcancel=curs.fetchall()
             return render(request,'Tickets.html',{'al':x,'tickets':tickbook,'cancel':tickcancel,'btest':True})
         else:
@@ -338,11 +338,11 @@ def seeconfirm(request):
             seat=random.randint(1,50)
             date=fdate
             fdate=''
-            user=x[1]
+            user_email=x[2]
             curs.execute("insert into bookticket_passenger (Passenger_name,Gender,Age) values ('{}','{}',{})".format(confdets[1],confdets[3],confdets[2]))
             curs.execute("select passenger_id from bookticket_passenger")
             pid=curs.fetchall()[-1][0]
-            curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user,pid,confdets[4]))
+            curs.execute("insert into bookticket_journey (PNR_No,Train_No,Seat_No,Date,Time,Booked_user_email,Passenger_id,Quota,Status)values('{}','{}',{},'{}','{}','{}',{},'{}','Booked')".format(pnr,trtup[0],seat,date,trtup[4],user_email,pid,confdets[4]))
             con.commit()
             time.sleep(2)
             return render(request,'Home_Page.html',{'al':x})
