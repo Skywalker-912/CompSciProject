@@ -43,7 +43,7 @@ def seehome(request):
         email=request.POST['email']
         phone=request.POST['phone']
         msg=request.POST['msg']
-        curs.execute("insert into bookticket_message(name,email,phone,msg) values('{}','{}','{}','{}')".format(name,email,phone,msg))
+        curs.execute('insert into bookticket_message(name,email,phone,msg) values("{}","{}","{}","{}")'.format(name,email,phone,msg))
         con.commit()
         return render(request,'Home_Page.html',{'al':x,'ftest':True})
     else:
