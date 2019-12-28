@@ -249,7 +249,7 @@ def seeform(request):
         gender=request.POST['gender']
         quota=request.POST['quota']
         user=x[1]
-        if quota=="Divyaang":
+        if quota=="Divyaang" and int(age)>=60:
             cost1=cost*3/4
         elif quota=="Tatkal":
             cost1=cost*1.5
@@ -282,11 +282,13 @@ def seeticket(request):
         
     else:
         if x:
-            curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user_email='{}' and status='Booked'".format(x[2]))
+            curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user_email='{}' and status='Booked' and j.date+0>(select curdate()+3)".format(x[2]))
             tickbook=curs.fetchall()
+            curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user_email='{}' and status='Booked' and j.date+0<=(select curdate()+3)".format(x[2]))
+            tickdis=curs.fetchall()
             curs.execute("select passenger_name,pnr_no,train_no,seat_no,date,time,quota from bookticket_passenger p,bookticket_journey j where p.passenger_id=j.passenger_id and booked_user_email='{}' and status='Cancelled'".format(x[2]))
             tickcancel=curs.fetchall()
-            return render(request,'Tickets.html',{'al':x,'tickets':tickbook,'cancel':tickcancel,'btest':True})
+            return render(request,'Tickets.html',{'al':x,'tickets':tickbook,'cancel':tickcancel,'canceldis':tickdis,'btest':True})
         else:
             return HttpResponseRedirect('../login')
 

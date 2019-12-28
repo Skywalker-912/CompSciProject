@@ -130,6 +130,27 @@
     
       </tr>
     </thead>
+    {%for i in canceldis%}
+    <tbody>
+      <tr>
+        <td>{{i.0}}</td>
+        <td>{{i.1}}</td>
+        <td>{{i.2}}</td>
+        <td>{{i.3}}</td>
+        <td>{{i.4}}</td>
+        <td>{{i.5}}</td>
+        <td>{{i.6}}</td>
+        {%if btest%}
+        <form action="#" method="POST">
+          {%csrf_token%}
+        <td><input class="text btn disabled indigo" type="submit" onclick="M.toast({html: 'Ticket cancelled'})" value="Cancel" name="{{i.1}}" action="#"></input></td>
+      </form>
+      {%else%}
+       <td>{{i.7}}</td>
+        {%endif%}
+      </tr>
+    </tbody>
+    {%endfor%}
     {%for i in tickets%}
     <tbody>
       <tr>
