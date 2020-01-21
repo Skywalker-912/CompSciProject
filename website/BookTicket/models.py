@@ -11,7 +11,7 @@ class Journey(models.Model):
     Date = models.DateField()
     time = models.TimeField()
     Booked_user_email=models.CharField(max_length=200)
-    Passenger_id=models.CharField(max_length=50)
+    Passenger_id=models.IntegerField()
     Quota=models.CharField(max_length=100)
     Status=models.CharField(max_length=15,default='Booked')
 #This table contains the details of each station.

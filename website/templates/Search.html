@@ -206,6 +206,7 @@
         });
       var startDate = new Date();
       var endDate = new Date();
+      startDate.setDate(startDate.getDate()+1)
       endDate.setDate(endDate.getDate()+90)
       {%if ttest%}
       M.toast({html:'No trains found'})
